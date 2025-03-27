@@ -21,7 +21,7 @@ export function AppSidebar({ chapters, reportSlug }) {
             <SidebarGroup key={chapter.id}>
               <SidebarGroupLabel>{chapter.ChapterName}</SidebarGroupLabel>
               <SidebarMenu>
-                {chapter.sub_chapters.map((subchapter) => (
+                {(chapter.sub_chapters || []).map((subchapter) => (
                   <SidebarMenuItem key={subchapter.id}>
                     <SidebarMenuButton asChild>
                       <Link href={`/our-reports/${reportSlug}/${subchapter.slug}`}>

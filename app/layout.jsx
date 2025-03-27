@@ -19,9 +19,9 @@ export default function RootLayout({ children }) {
           </div>
           <header className="bg-white/50 backdrop-blur z-10">
             <div className="max-w-4xl mx-auto flex items-center justify-between">
-              <h2 className="text-2xl text-gray-500 py-6">IAAD Reports</h2>
+              <h2 className="text-2xl text-gray-700 py-6">Indian Audit and Accounts Department Karnataka Reports</h2>
               <nav>
-                <ul className="flex gap-x-7 text-gray-500 text-sm">
+                <ul className="flex gap-x-1 text-gray-800 text-sm">
                   <li>
                     <NavLink text="Home" path="/" />
                   </li>

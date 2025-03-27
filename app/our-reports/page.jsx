@@ -1,28 +1,27 @@
 import Link from "next/link";
 
-
 async function getAllReports() {
-  const reportsPromise = await fetch('http://localhost:1337/api/reports?populate=*');
-  const reports = await reportsPromise.json();
-  return reports.data;
-  
+  try {
+    const reportsPromise = await fetch('http://localhost:1337/api/reports?populate=*');
+    const reports = await reportsPromise.json();
+    return reports.data || [];
+  } catch (error) {
+    console.error("Failed to fetch reports:", error);
+    return [];
+  }
 }
 
 export default async function page() {
-const reports = await getAllReports();
-console.log(reports)
+  const reports = await getAllReports();
+  console.log(reports)
 
-    return (
-      <div>
-        <h1>THis is our Reports page.   welcome</h1>
-        <div className="space-y-4">
-          {reports.map(report => {
-            return (
-              // <div key={report.id}>
-              //   <Link href= {`/our-reports/${report.slug}`}>{report.title}</Link>
-                
-              // </div>
-              <Link
+  return (
+    <div>
+      <h1>This is our Reports page. Welcome</h1>
+      <div className="space-y-4">
+        {reports.length > 0 ? (
+          reports.map((report) => (
+            <Link
               className="group grid grid-cols-[140px_1fr] bg-white shadow rounded-lg overflow-hidden relative hover:bg-gradient-to-r from-white to-amber-50"
               key={report.id}
               href={`/our-reports/${report.slug}`}
@@ -39,11 +38,11 @@ console.log(reports)
                 <p className="text-sm text-gray-500 leading-6">{report.description}</p>
               </div>
             </Link>
-
-            );  
-          })}
-        </div>
+          ))
+        ) : (
+          <p className="text-gray-500">No reports available at the moment.</p>
+        )}
       </div>
-    );
-  }
-  
+    </div>
+  );
+}
