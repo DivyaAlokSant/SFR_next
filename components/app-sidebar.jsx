@@ -14,7 +14,7 @@ import {
 
 export function AppSidebar({ chapters, reportSlug }) {
   return (
-    <div className="relative transition-width duration-300">
+    <div >
       <Sidebar>
         <SidebarContent>
           {chapters.map((chapter) => (

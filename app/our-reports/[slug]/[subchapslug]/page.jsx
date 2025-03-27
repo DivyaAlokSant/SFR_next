@@ -105,26 +105,23 @@ export default async function SubchapterPage(context) {
 
   return (
     <SidebarProvider>
-      <div className="flex relative">
+      <div className="flex min-h-screen">
         {/* Sidebar */}
-        <div className="relative w-64 transition-width duration-300">
+        <div className="basis-1/5 h-screen overflow-y-auto bg-gray-100">
           <AppSidebar chapters={report?.chapters || []} reportSlug={slug} />
         </div>
 
         {/* Main Content */}
-        <main className="flex-1 p-5">
-          <SidebarTrigger />
+        <div className="basis-4/5 p-5 overflow-x-hidden">
           <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg">
             <h1 className="text-3xl font-bold mb-4">{subchapter.subChapterName}</h1>
-            {/* <p className="text-xl text-gray-700 mb-4">Subchapter content goes here.</p> */}
             <h3 className="text-2xl font-semibold mb-4">Report: {report?.title || "N/A"}</h3>
             <p className="text-lg text-gray-600 mb-4">{report?.description || "N/A"}</p>
             <div className="prose max-w-none">
               {subchapter.dynamicContent.map((item, index) => OurRenderer(item, index))}
             </div>
-
           </div>
-        </main>
+        </div>
       </div>
     </SidebarProvider>
   );
