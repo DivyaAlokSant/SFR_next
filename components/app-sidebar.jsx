@@ -14,18 +14,21 @@ import {
 
 export function AppSidebar({ chapters, reportSlug }) {
   return (
-    <div >
+    <div className=" bg-gray-300">
       <Sidebar>
         <SidebarContent>
           {chapters.map((chapter) => (
             <SidebarGroup key={chapter.id}>
-              <SidebarGroupLabel>{chapter.ChapterName}</SidebarGroupLabel>
+              <SidebarGroupLabel className="bg-gray-200 text-sm text-slate-900">{chapter.ChapterName}</SidebarGroupLabel>
               <SidebarMenu>
                 {(chapter.sub_chapters || []).map((subchapter) => (
                   <SidebarMenuItem key={subchapter.id}>
-                    <SidebarMenuButton asChild>
+                    <SidebarMenuButton
+                      asChild
+                      className="px-1 py-1  text-xs " 
+                    >
                       <Link href={`/our-reports/${reportSlug}/${subchapter.slug}`}>
-                        <span>{subchapter.subChapterName}</span>
+                        <span className=" w-24  bg-gray-100">{subchapter.subChapterName}</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>

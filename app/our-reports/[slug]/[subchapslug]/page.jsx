@@ -1,8 +1,6 @@
 import qs from 'qs';
-import { AppSidebar } from '@/components/app-sidebar';
-import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
-import Chart from '@/components/Chart'
+import Chart from '@/components/Chart';
 
 async function fetchSubchapter(slug, subchapslug) {
   const query = qs.stringify({
@@ -75,12 +73,10 @@ async function fetchSubchapter(slug, subchapslug) {
   return { report, subchapter };
 }
 
-
 function OurRenderer(item, index) {
   if (item.__component === "content.chart-as-image") 
-    return <Chart key={index} data={item}/>;
+    return <Chart key={index} data={item} />;
   
-
   if (item.__component === "content.para-content") {
     return <BlocksRenderer key={index} content={item.text} />;
   }
@@ -93,36 +89,22 @@ function OurRenderer(item, index) {
   return <p key={index}>Unknown component</p>;
 }
 
-
 export default async function SubchapterPage(context) {
   const { slug, subchapslug } = await context.params; // Await params here
   console.log("Slug:", slug);
   console.log("SubChapter Slug:", subchapslug);
 
   const { report, subchapter } = await fetchSubchapter(slug, subchapslug);
-  //console.log("Report:", report);
   console.log("SubChapter:", subchapter);
 
   return (
-    <SidebarProvider>
-      <div className="flex min-h-screen">
-        {/* Sidebar */}
-        <div className="basis-1/5 h-screen overflow-y-auto bg-gray-100">
-          <AppSidebar chapters={report?.chapters || []} reportSlug={slug} />
-        </div>
-
-        {/* Main Content */}
-        <div className="basis-4/5 p-5 overflow-x-hidden">
-          <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg">
-            <h1 className="text-3xl font-bold mb-4">{subchapter.subChapterName}</h1>
-            <h3 className="text-2xl font-semibold mb-4">Report: {report?.title || "N/A"}</h3>
-            <p className="text-lg text-gray-600 mb-4">{report?.description || "N/A"}</p>
-            <div className="prose max-w-none">
-              {subchapter.dynamicContent.map((item, index) => OurRenderer(item, index))}
-            </div>
-          </div>
-        </div>
+    <div className=" p-10 bg-white shadow-md rounded-lg">
+      <h1 className="text-3xl font-bold mb-4">{subchapter.subChapterName}</h1>
+      <h3 className="text-2xl font-semibold mb-4">Report: {report?.title || "N/A"}</h3>
+      <p className="text-lg text-gray-600 mb-4">{report?.description || "N/A"}</p>
+      <div className="prose max-w-none justify-items-start">
+        {subchapter.dynamicContent.map((item, index) => OurRenderer(item, index))}
       </div>
-    </SidebarProvider>
+    </div>
   );
 }
