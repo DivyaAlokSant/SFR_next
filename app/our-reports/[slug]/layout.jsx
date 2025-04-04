@@ -4,7 +4,7 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 
 async function fetchChapters(slug) {
   const response = await fetch(
-    `http://localhost:1337/api/reports?filters[slug][$eq]=${slug}&populate[chapters][populate][sub_chapters]=true`
+    `http://localhost:1337/api/reports?filters[slug][$eq]=${slug}&populate[chapters][sort]=ChapterNumber:asc&populate[chapters][populate][sub_chapters][sort]=subChapterOrder:asc`
   );
 
   if (!response.ok) {
@@ -19,27 +19,33 @@ async function fetchChapters(slug) {
 export default async function Layout({ children, params }) {
   const { slug } = params;
 
-  // Fetch chapters data server-side
   let chapters = [];
   try {
     chapters = await fetchChapters(slug);
   } catch (error) {
-    console.error('Error fetching chapters:', error);
+    console.error("Error fetching chapters:", error);
   }
 
   return (
-    <SidebarProvider>
-      <div className="flex p-8 overflow-x-auto">
-        {/* Sidebar */}
-        <div className=" p-6  bg-gray-100">
+    <div className="flex min-h-screen">
+      {/* Sidebar */}
+      <div className="w-64 bg-gray-100 mx-auto rounded-xl py-5">
+      <SidebarProvider>
+       
           <AppSidebar chapters={chapters} reportSlug={slug} />
-        </div>
-
-        {/* Main Content */}
-        <div className="p-5 overflow-x-auto">
-          {children}
-        </div>
+       
+      </SidebarProvider>
       </div>
-    </SidebarProvider>
+
+      {/* Main Content */}
+      
+      
+  <div className="flex-1 mx-auto bg-white/60 rounded-xl py-7 px-8 m-6">
+    {children}
+  </div>
+
+</div>
+
+  
   );
 }

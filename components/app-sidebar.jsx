@@ -14,7 +14,7 @@ import {
 
 export function AppSidebar({ chapters, reportSlug }) {
   return (
-    <div className=" bg-gray-300">
+    <div className="bg-gray-300">
       <Sidebar>
         <SidebarContent>
           {chapters.map((chapter) => (
@@ -25,10 +25,10 @@ export function AppSidebar({ chapters, reportSlug }) {
                   <SidebarMenuItem key={subchapter.id}>
                     <SidebarMenuButton
                       asChild
-                      className="px-1 py-1  text-xs " 
+                      className="px-1 py-1  text-xs" 
                     >
                       <Link href={`/our-reports/${reportSlug}/${subchapter.slug}`}>
-                        <span className=" w-24  bg-gray-100">{subchapter.subChapterName}</span>
+                        <span className=" bg-gray-100">{subchapter.subChapterName}</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>

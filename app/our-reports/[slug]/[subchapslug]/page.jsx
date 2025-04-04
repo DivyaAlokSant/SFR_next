@@ -98,7 +98,8 @@ export default async function SubchapterPage(context) {
   console.log("SubChapter:", subchapter);
 
   return (
-    <div className=" p-10 bg-white shadow-md rounded-lg">
+    <div className="flex-1 p-5">    
+      <div className=" p-10 bg-white shadow-md rounded-lg">
       <h1 className="text-3xl font-bold mb-4">{subchapter.subChapterName}</h1>
       <h3 className="text-2xl font-semibold mb-4">Report: {report?.title || "N/A"}</h3>
       <p className="text-lg text-gray-600 mb-4">{report?.description || "N/A"}</p>
@@ -106,5 +107,7 @@ export default async function SubchapterPage(context) {
         {subchapter.dynamicContent.map((item, index) => OurRenderer(item, index))}
       </div>
     </div>
+    </div>
+ 
   );
 }

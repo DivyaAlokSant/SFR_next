@@ -35,7 +35,7 @@ export default function RootLayout({ children }) {
               </nav>
             </div>
           </header>
-          <main className="backdrop-blur z-10 max-w-4xl mx-auto bg-white/50 rounded-xl py-7 px-8 m-6 overflow-hidden">
+          <main className="backdrop-blur  max-w-6xl mx-auto bg-white/60 rounded-xl py-7 px-8 m-6 ">
             {children}
           </main>
           <Footer />
