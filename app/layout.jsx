@@ -12,16 +12,21 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <div className="bg-gray-200 min-h-[100dvh] grid grid-rows-[auto_1fr_auto]">
+        <div className="bg-gray-200 min-h-screen flex flex-col">
+          {/* Background Circles */}
           <div className="absolute z-0 inset-0 overflow-hidden">
             <div className="circle-one blur-3xl w-64 h-64 rounded-full bg-rose-400/60 top-0 right-28 absolute"></div>
             <div className="circle-two blur-3xl w-64 h-64 rounded-full bg-indigo-400/60 bottom-0 left-28 absolute"></div>
           </div>
-          <header className="bg-white/50 backdrop-blur z-10">
-            <div className="max-w-4xl mx-auto flex items-center justify-between">
-              <h2 className="text-2xl text-gray-700 py-6">Indian Audit and Accounts Department Karnataka Reports</h2>
+
+          {/* Header */}
+          <header className="bg-white/50 backdrop-blur z-10 w-full">
+            <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8">
+              <h2 className="text-xl sm:text-2xl text-gray-700 py-4 sm:py-6">
+                Indian Audit and Accounts Department Karnataka Reports
+              </h2>
               <nav>
-                <ul className="flex gap-x-1 text-gray-800 text-sm">
+                <ul className="flex gap-x-4 text-gray-800 text-sm sm:text-base">
                   <li>
                     <NavLink text="Home" path="/" />
                   </li>
@@ -35,9 +40,15 @@ export default function RootLayout({ children }) {
               </nav>
             </div>
           </header>
-          <main className="backdrop-blur z-10 max-w-4xl mx-auto bg-white/50 rounded-xl py-7 px-8 m-6 overflow-hidden">
-            {children}
+
+          {/* Main Content */}
+          <main className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
+            <div className="w-full max-w-7xl bg-white/50 rounded-xl py-6 px-4 sm:py-8 sm:px-10 shadow-md">
+              {children}
+            </div>
           </main>
+
+          {/* Footer */}
           <Footer />
         </div>
       </body>
