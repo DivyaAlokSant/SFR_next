@@ -40,12 +40,8 @@ export default function RootLayout({ children }) {
               </nav>
             </div>
           </header>
-
-          {/* Main Content */}
-          <main className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
-            <div className="w-full max-w-7xl bg-white/50 rounded-xl py-6 px-4 sm:py-8 sm:px-10 shadow-md">
-              {children}
-            </div>
+          <main className="backdrop-blur  max-w-6xl mx-auto bg-white/60 rounded-xl py-7 px-8 m-6 ">
+            {children}
           </main>
 
           {/* Footer */}
