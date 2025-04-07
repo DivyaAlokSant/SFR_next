@@ -103,7 +103,7 @@ export default async function SubchapterPage(context) {
       <h1 className="text-3xl font-bold mb-4">{subchapter.subChapterName}</h1>
       <h3 className="text-2xl font-semibold mb-4">Report: {report?.title || "N/A"}</h3>
       <p className="text-lg text-gray-600 mb-4">{report?.description || "N/A"}</p>
-      <div className="prose max-w-none justify-items-start">
+      <div className="prose max-w-none text-justify ">
         {subchapter.dynamicContent.map((item, index) => OurRenderer(item, index))}
       </div>
     </div>

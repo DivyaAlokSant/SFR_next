@@ -57,9 +57,9 @@ export default async function Page({ params }) {
             <h2 className="text-xl text-gray-700 mb-4">{report.description}</h2>
             {report.image && (
               <img
-                src={`http://localhost:1337${report.image.url}`}
+                src={`http://localhost:1337${report.image.formats.small.url}`}
                 alt={report.title}
-                className="w-full h-auto mb-6 rounded-lg shadow-md"
+                className="w-auto h-auto mb-6 rounded-lg shadow-md justify-center mx-auto"
               />
             )}
           </>
