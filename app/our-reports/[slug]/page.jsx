@@ -23,7 +23,7 @@ async function fetchReport(slug) {
     { encodeValuesOnly: true } // Ensure proper encoding of query parameters
   );
 
-  const response = await fetch(`http://localhost:1337/api/reports?${ourQuery}`);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/reports?${ourQuery}`);
   console.log('API Response Status:', response.status);
 
   if (!response.ok) {
@@ -57,7 +57,7 @@ export default async function Page({ params }) {
             <h2 className="text-xl text-gray-700 mb-4">{report.description}</h2>
             {report.image && (
               <img
-                src={`http://localhost:1337${report.image.formats.small.url}`}
+                src={`${process.env.NEXT_PUBLIC_API_BASE_URL}${report.image.formats.small.url}`}
                 alt={report.title}
                 className="w-auto h-auto mb-6 rounded-lg shadow-md justify-center mx-auto"
               />

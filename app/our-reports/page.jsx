@@ -2,7 +2,7 @@ import Link from "next/link";
 
 async function getAllReports() {
   try {
-    const reportsPromise = await fetch('http://localhost:1337/api/reports?populate=*');
+    const reportsPromise = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/reports?populate=*`);
     const reports = await reportsPromise.json();
     return reports.data || [];
   } catch (error) {
@@ -30,7 +30,7 @@ export default async function page() {
                 {report.image?.formats?.small?.url ? (
                   <img
                     className="transition duration-300 absolute inset-0 h-full w-full object-cover group-hover:scale-125 group-hover:rotate-12"
-                    src={`http://localhost:1337${report.image.formats.small.url}`}
+                    src={`${process.env.NEXT_PUBLIC_API_BASE_URL}${report.image.formats.small.url}`}
                     alt={report.image.name || "Report Image"}
                   />
                 ) : (

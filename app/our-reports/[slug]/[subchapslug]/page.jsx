@@ -53,7 +53,7 @@ async function fetchSubchapter(slug, subchapslug) {
 
   console.log("Generated Query:", query);
 
-  const response = await fetch(`http://localhost:1337/api/sub-chapters?${query}`);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/sub-chapters?${query}`);
   console.log("API Response Status:", response.status);
 
   if (!response.ok) {
