@@ -1,40 +1,5 @@
-import qs from 'qs';
+import { fetchReport } from '@/app/api'; 
 
-async function fetchReport(slug) {
-  const ourQuery = qs.stringify(
-    {
-      filters: {
-        slug: {
-          $eq: slug, // Filter by report slug
-        },
-      },
-      populate: {
-        image: true,
-        chapters: {
-          sort: ['ChapterNumber:asc'], // Sort chapters by ChapterNumber
-          populate: {
-            sub_chapters: {
-              sort: ['subChapterOrder:asc'], // Sort subchapters by subChapterOrder
-            },
-          },
-        },
-      },
-    },
-    { encodeValuesOnly: true } // Ensure proper encoding of query parameters
-  );
-
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/reports?${ourQuery}`);
-  console.log('API Response Status:', response.status);
-
-  if (!response.ok) {
-    const errorDetails = await response.text();
-    console.error('API Error Details:', errorDetails);
-    throw new Error(`Failed to fetch report: ${response.statusText}`);
-  }
-
-  const report = await response.json();
-  return report.data?.[0] || null; // Return the first report or null if not found
-}
 
 export default async function Page({ params }) {
   const { slug } = await params; // Explicitly await the params promise

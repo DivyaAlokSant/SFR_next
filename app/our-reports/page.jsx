@@ -1,15 +1,6 @@
 import Link from "next/link";
+import {getAllReports} from "@/app/api"; 
 
-async function getAllReports() {
-  try {
-    const reportsPromise = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/reports?populate=*`);
-    const reports = await reportsPromise.json();
-    return reports.data || [];
-  } catch (error) {
-    console.error("Failed to fetch reports:", error);
-    return [];
-  }
-}
 
 export default async function page() {
   const reports = await getAllReports();
