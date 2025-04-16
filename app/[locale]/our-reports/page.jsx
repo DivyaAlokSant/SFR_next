@@ -1,21 +1,24 @@
 import Link from "next/link";
-import {getAllReports} from "@/app/api"; 
+import { getAllReports } from "@/app/api";
 
-
-export default async function page() {
-  const reports = await getAllReports();
-  console.log(reports);
+export default async function Page({ params }) {
+  const { locale } = await params; // Await the params object to access its properties
+  const reports = await getAllReports(locale); // Fetch reports for the current locale
 
   return (
     <div>
-      <h1>This is our Reports page. Welcome</h1>
+      <h1>
+        {locale === "en"
+          ? "This is our Reports page. Welcome"
+          : "ನಮ್ಮ ವರದಿ ಪುಟಕ್ಕೆ ಸ್ವಾಗತ"}
+      </h1>
       <div className="space-y-4">
         {reports.length > 0 ? (
           reports.map((report) => (
             <Link
               className="group grid grid-cols-[140px_1fr] bg-white shadow rounded-lg overflow-hidden relative hover:bg-gradient-to-r from-white to-amber-50"
               key={report.id}
-              href={`/our-reports/${report.slug}`}
+              href={`/${locale}/our-reports/${report.slug}`} // Include locale in the URL
             >
               <div className="relative overflow-hidden">
                 {report.image?.formats?.small?.url ? (
@@ -31,13 +34,21 @@ export default async function page() {
                 )}
               </div>
               <div className="p-4">
-                <p className="text-xl text-gray-600 font-bold group-hover:text-gray-700">{report.title}</p>
-                <p className="text-sm text-gray-500 leading-6">{report.description}</p>
+                <p className="text-xl text-gray-600 font-bold group-hover:text-gray-700">
+                  {report.title}
+                </p>
+                <p className="text-sm text-gray-500 leading-6">
+                  {report.description}
+                </p>
               </div>
             </Link>
           ))
         ) : (
-          <p className="text-gray-500">No reports available at the moment.</p>
+          <p className="text-gray-500">
+            {locale === "en"
+              ? "No reports available at the moment."
+              : "ಈ ಕ್ಷಣಕ್ಕೆ ವರದಿಗಳು ಲಭ್ಯವಿಲ್ಲ."}
+          </p>
         )}
       </div>
     </div>
