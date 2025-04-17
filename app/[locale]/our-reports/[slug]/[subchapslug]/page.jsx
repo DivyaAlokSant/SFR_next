@@ -1,5 +1,6 @@
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 import Chart from '@/components/Chart';
+import Table from '@/components/table'
 import { fetchSubchapter, fetchSubchapterFloatingBtn } from '@/app/api';
 import FloatingActionButtons, { getNavigationLinks } from "@/app/FloatingButtons";
 
@@ -12,7 +13,7 @@ function OurRenderer(item, index) {
   }
 
   if (item.__component === "content.table") {
-    return <p key={index}>This is the table dynamic component</p>;
+    return <Table key={index}data={item} />;
   }
 
   // Fallback for unknown components
@@ -28,6 +29,7 @@ export default async function SubchapterPage(context) {
     const subchapterData = await fetchSubchapter(slug, subchapslug, locale);
     report = subchapterData.report;
     subchapter = subchapterData.subchapter;
+    console.log("subchapter", subchapter);
 
     // Fetch navigation links for subchapters
     const floatingBtnData = await fetchSubchapterFloatingBtn(slug, subchapslug, locale);

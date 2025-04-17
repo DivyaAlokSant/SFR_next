@@ -152,7 +152,7 @@ export async function fetchSubchapterFloatingBtn(slug, subchapslug, locale = 'en
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/sub-chapters?${query}`);
   if (!response.ok) {
     const errorDetails = await response.text();
-    console.error("API Error Details:", errorDetails);
+    //console.error("API Error Details:", errorDetails);
     throw new Error(`Failed to fetch subchapters: ${response.statusText}`);
   }
 
