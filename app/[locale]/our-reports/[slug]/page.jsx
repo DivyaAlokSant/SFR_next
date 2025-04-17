@@ -1,7 +1,7 @@
 import { fetchReport } from '@/app/api';
 
 export default async function Page({ params }) {
-  const { slug, locale } = params; // Get the slug and locale from dynamic route params
+  const { slug, locale } = await params; // Get the slug and locale from dynamic route params
 
   let report;
   try {

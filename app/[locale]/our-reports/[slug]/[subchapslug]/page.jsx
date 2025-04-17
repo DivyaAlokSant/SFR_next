@@ -20,7 +20,7 @@ function OurRenderer(item, index) {
 }
 
 export default async function SubchapterPage(context) {
-  const { slug, subchapslug, locale } = context.params; // Get slug, subchapter slug, and locale from dynamic route params
+  const { slug, subchapslug, locale } = await context.params; // Get slug, subchapter slug, and locale from dynamic route params
 
   let report, subchapter, subChapters;
   try {
