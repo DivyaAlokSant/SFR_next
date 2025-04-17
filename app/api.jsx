@@ -1,25 +1,33 @@
 import qs from 'qs';
 
-
-export async function getAllReports() {
+export async function getAllReports(locale = 'en') {
   try {
-    const reportsPromise = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/reports?populate=*`);
-    const reports = await reportsPromise.json();
-    return reports.data || [];
+    const query = qs.stringify(
+      {
+        locale, // Include the locale parameter
+        populate: '*',
+      },
+      { encodeValuesOnly: true }
+    );
+
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/reports?${query}`);
+    const data = await response.json();
+    return data.data || [];
   } catch (error) {
     console.error("Failed to fetch reports:", error);
     return [];
   }
 }
 
-export async function fetchReport(slug) {
-  const ourQuery = qs.stringify(
+export async function fetchReport(slug, locale = 'en') {
+  const query = qs.stringify(
     {
       filters: {
         slug: {
           $eq: slug, // Filter by report slug
         },
       },
+      locale, // Include the locale parameter
       populate: {
         image: true,
         chapters: {
@@ -32,10 +40,10 @@ export async function fetchReport(slug) {
         },
       },
     },
-    { encodeValuesOnly: true } // Ensure proper encoding of query parameters
+    { encodeValuesOnly: true }
   );
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/reports?${ourQuery}`);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/reports?${query}`);
   console.log('API Response Status:', response.status);
 
   if (!response.ok) {
@@ -44,49 +52,52 @@ export async function fetchReport(slug) {
     throw new Error(`Failed to fetch report: ${response.statusText}`);
   }
 
-  const report = await response.json();
-  return report.data?.[0] || null; // Return the first report or null if not found
+  const data = await response.json();
+  return data.data?.[0] || null; // Return the first report or null if not found
 }
 
-export async function fetchSubchapter(slug, subchapslug) {
-  const query = qs.stringify({
-    filters: {
-      slug: {
-        $eq: subchapslug, // Filter by subchapter slug
-      },
-      chapter: {
-        report: {
-          slug: {
-            $eq: slug, // Ensure the subchapter belongs to the correct report
-          },
+export async function fetchSubchapter(slug, subchapslug, locale = 'en') {
+  const query = qs.stringify(
+    {
+      filters: {
+        slug: {
+          $eq: subchapslug, // Filter by subchapter slug
         },
-      },
-    },
-    populate: {
-      dynamicContent: {
-        on: {
-          "content.chart-as-image": {
-            populate: {
-              chart: "*", // Populate the chart (image) field
+        chapter: {
+          report: {
+            slug: {
+              $eq: slug, // Ensure the subchapter belongs to the correct report
             },
           },
-          "content.table": {
-            populate: "*", // Populate all fields for the table component
-          },
-          "content.para-content": {
-            populate: "*", // Populate all fields for the para component
-          },
         },
       },
-      chapter: {
-        populate: {
-          report: {
-            populate: {
-              chapters: {
-                sort: ["ChapterNumber:asc"], // Sort chapters by ChapterNumber
-                populate: {
-                  sub_chapters: {
-                    sort: ["subChapterOrder:asc"], // Sort subchapters by subChapterOrder
+      locale, // Include the locale parameter
+      populate: {
+        dynamicContent: {
+          on: {
+            "content.chart-as-image": {
+              populate: {
+                chart: "*", // Populate the chart (image) field
+              },
+            },
+            "content.table": {
+              populate: "*", // Populate all fields for the table component
+            },
+            "content.para-content": {
+              populate: "*", // Populate all fields for the para component
+            },
+          },
+        },
+        chapter: {
+          populate: {
+            report: {
+              populate: {
+                chapters: {
+                  sort: ["ChapterNumber:asc"], // Sort chapters by ChapterNumber
+                  populate: {
+                    sub_chapters: {
+                      sort: ["subChapterOrder:asc"], // Sort subchapters by subChapterOrder
+                    },
                   },
                 },
               },
@@ -95,13 +106,10 @@ export async function fetchSubchapter(slug, subchapslug) {
         },
       },
     },
-  }, { encodeValuesOnly: true }); // Ensure proper encoding of query parameters
-
-  // console.log("Generated Query:", query);
+    { encodeValuesOnly: true }
+  );
 
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/sub-chapters?${query}`);
-  // {console.log("API Response Status:", response.status);}
-
   if (!response.ok) {
     const errorDetails = await response.text();
     console.error("API Error Details:", errorDetails);
@@ -109,17 +117,14 @@ export async function fetchSubchapter(slug, subchapslug) {
   }
 
   const data = await response.json();
-  // console.log("Fetched Data:", data);
-
-  // Extract the subchapter and related data
   const subchapter = data.data[0]; // Directly access the first subchapter
   const chapter = subchapter?.chapter; // Access the parent chapter
   const report = chapter?.report; // Access the parent report
 
   return { report, subchapter };
-};
+}
 
-export async function fetchSubchapterFloatingBtn(slug, subchapslug) {
+export async function fetchSubchapterFloatingBtn(slug, subchapslug, locale = 'en') {
   const query = qs.stringify(
     {
       filters: {
@@ -131,6 +136,7 @@ export async function fetchSubchapterFloatingBtn(slug, subchapslug) {
           },
         },
       },
+      locale, // Include the locale parameter
       populate: {
         chapter: {
           populate: {
@@ -140,7 +146,7 @@ export async function fetchSubchapterFloatingBtn(slug, subchapslug) {
       },
       sort: ["chapter.ChapterNumber:asc", "subChapterOrder:asc"], // Sort by chapter and subchapter order
     },
-    { encodeValuesOnly: true } // Ensure proper encoding of query parameters
+    { encodeValuesOnly: true }
   );
 
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/sub-chapters?${query}`);
@@ -157,10 +163,9 @@ export async function fetchSubchapterFloatingBtn(slug, subchapslug) {
   const subchapter = subChapters.find((sub) => sub.slug === subchapslug);
 
   return { subchapter, subChapters };
-};
+}
 
-
-export async function fetchChapters(slug) {
+export async function fetchChapters(slug, locale = 'en') {
   const query = qs.stringify(
     {
       filters: {
@@ -168,6 +173,7 @@ export async function fetchChapters(slug) {
           $eq: slug, // Filter by report slug
         },
       },
+      locale, // Include the locale parameter
       populate: {
         chapters: {
           sort: ["ChapterNumber:asc"], // Sort chapters by ChapterNumber
@@ -179,11 +185,10 @@ export async function fetchChapters(slug) {
         },
       },
     },
-    { encodeValuesOnly: true } // Ensure proper encoding of query parameters
+    { encodeValuesOnly: true }
   );
 
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/reports?${query}`);
-
   if (!response.ok) {
     throw new Error(`Failed to fetch chapters: ${response.statusText}`);
   }

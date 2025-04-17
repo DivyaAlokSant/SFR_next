@@ -1,12 +1,11 @@
-import { fetchReport } from '@/app/api'; 
-
+import { fetchReport } from '@/app/api';
 
 export default async function Page({ params }) {
-  const { slug } = await params; // Explicitly await the params promise
+  const { slug, locale } = await params; // Get the slug and locale from dynamic route params
 
   let report;
   try {
-    report = await fetchReport(slug);
+    report = await fetchReport(slug, locale); // Pass the locale to fetch the localized report
     console.log('Fetched Report:', report);
   } catch (error) {
     console.error('Error fetching report:', error);
@@ -14,7 +13,7 @@ export default async function Page({ params }) {
   }
 
   return (
-    <div >
+    <div>
       <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg">
         {report ? (
           <>
@@ -29,7 +28,11 @@ export default async function Page({ params }) {
             )}
           </>
         ) : (
-          <p className="text-gray-500">Report not found or failed to load.</p>
+          <p className="text-gray-500">
+            {locale === 'en'
+              ? 'Report not found or failed to load.'
+              : 'ವರದಿ ಲಭ್ಯವಿಲ್ಲ ಅಥವಾ ಲೋಡ್ ಮಾಡಲು ವಿಫಲವಾಗಿದೆ.'}
+          </p>
         )}
       </div>
     </div>
