@@ -23,7 +23,7 @@ export default async function Page({ params }) {
               <img
                 src={`${process.env.NEXT_PUBLIC_API_BASE_URL}${report.image.formats.small.url}`}
                 alt={report.title}
-                className="w-auto h-auto mb-6 rounded-lg shadow-md justify-center mx-auto"
+                className="w-auto h-96 mb-6 rounded-lg shadow-md justify-center mx-auto"
               />
             )}
           </>

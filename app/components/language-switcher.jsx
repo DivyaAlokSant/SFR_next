@@ -6,58 +6,53 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 export default function LanguageSwitcher({ currentLocale }) {
   const router = useRouter();
-  const pathname = usePathname(); // Get the current path
-  const searchParams = useSearchParams(); // Get current query parameters
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [isChecked, setIsChecked] = useState(currentLocale === "kn-IN");
 
   useEffect(() => {
-    // Sync the switch state with the current locale
     setIsChecked(currentLocale === "kn-IN");
   }, [currentLocale]);
 
   const changeLanguage = (newLocale) => {
-    // Handle paths without a locale (e.g., `/` instead of `/en`)
-    const segments = pathname.split("/").filter(Boolean); // Split path into segments
-    const locales = ["en", "kn-IN"]; // Define supported locales
+    const segments = pathname.split("/").filter(Boolean);
+    const locales = ["en", "kn-IN"];
 
     if (locales.includes(segments[0])) {
-      segments[0] = newLocale; // Replace the locale in the path
+      segments[0] = newLocale;
     } else {
-      segments.unshift(newLocale); // Prepend the locale to the path
+      segments.unshift(newLocale);
     }
 
-    // Reconstruct the path with the new locale
     const newPath = `/${segments.join("/")}`;
-
-    // Preserve query parameters
     const params = searchParams.toString();
     router.push(params ? `${newPath}?${params}` : newPath);
   };
 
   const handleSwitchChange = (checked) => {
-    const newLocale = checked ? "kn-IN" : "en"; // Toggle between "en" and "kn-IN"
-    setIsChecked(checked); // Update the switch state
-    changeLanguage(newLocale); // Change the language
+    const newLocale = checked ? "kn-IN" : "en";
+    setIsChecked(checked);
+    changeLanguage(newLocale);
   };
 
   return (
     <div className="flex items-center gap-x-4">
       <span className={`text-sm ${!isChecked ? "font-bold" : "text-gray-500"}`}>
-        EN
+        English
       </span>
       <Switch
         checked={isChecked}
         onChange={handleSwitchChange}
-        onColor="#3b82f6" // Blue for checked state
-        offColor="#d1d5db" // Gray for unchecked state
-        checkedIcon={false} // No icon for checked state
-        uncheckedIcon={false} // No icon for unchecked state
-        handleDiameter={20} // Diameter of the thumb
-        height={24} // Height of the switch
-        width={48} // Width of the switch
+        onColor="#77842C"
+        offColor="#d1d5db"
+        checkedIcon={false}
+        uncheckedIcon={false}
+        handleDiameter={20}
+        height={24}
+        width={48}
       />
       <span className={`text-sm ${isChecked ? "font-bold" : "text-gray-500"}`}>
-        KN-IN
+        ಕನ್ನಡ
       </span>
     </div>
   );
