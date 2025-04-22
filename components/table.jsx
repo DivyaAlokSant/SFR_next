@@ -4,64 +4,57 @@ import { useReactTable, getCoreRowModel } from "@tanstack/react-table";
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 
 export default function Table(props) {
-  const { data } = props; // Extract data from props
-  const { tableHeader, tableData, tableFooter } = data; // Destructure table-specific data
+  const { data } = props;
+  const { tableHeader, tableData, tableFooter } = data;
 
-  console.log("Received table data:", tableData);
+  console.log("Table Data:", tableData);
 
   if (!tableData || tableData.length === 0) {
     return <p>No data available</p>;
   }
 
-  // Define columns dynamically based on the keys of the first object in the tableData array
-  const columns = React.useMemo(
-    () =>
-      Object.keys(tableData[0]).map((key) => ({
-        accessorKey: key, // Key for the column
-        header: key === "Year" ? "Year/Metric" : key, // Customize the header for the "Year" column
-        cell: (info) => <span>{info.getValue()}</span>, // Render cell value as a React element
-      })),
-    [tableData]
-  );
+  const columns = React.useMemo(() => {
+    const firstRow = tableData[0];
+    if (!firstRow || typeof firstRow !== "object") {
+      console.error("Invalid table data structure:", tableData);
+      return [];
+    }
 
-  // Define the table instance
+    return Object.keys(firstRow).map((key) => ({
+      id: key,
+      accessorKey: key,
+      header: key,
+      cell: (info) => <span>{info.getValue() || "-"}</span>,
+    }));
+  }, [tableData]);
+
   const table = useReactTable({
     data: tableData,
     columns,
-    getCoreRowModel: getCoreRowModel(), // Required for basic table functionality
+    getCoreRowModel: getCoreRowModel(),
   });
 
   return (
     <div className="space-y-4">
-      {/* Table Header */}
       <h2 className="text-xl font-bold">{tableHeader}</h2>
-
-      {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full border-collapse border border-gray-300 text-left text-sm">
-          {/* Table Head */}
           <thead className="bg-gray-100">
-            <tr>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <React.Fragment key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <th
-                      key={header.id}
-                      className="border border-gray-300 px-4 py-2 font-medium text-gray-700"
-                    >
-                      {header.isPlaceholder
-                        ? null
-                        : header.renderHeader
-                        ? header.renderHeader()
-                        : header.column.columnDef.header}
-                    </th>
-                  ))}
-                </React.Fragment>
-              ))}
-            </tr>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <th
+                    key={header.id}
+                    className="border border-gray-300 px-4 py-2 font-medium text-gray-700"
+                  >
+                    {header.isPlaceholder
+                      ? null
+                      : header.column.columnDef.header}
+                  </th>
+                ))}
+              </tr>
+            ))}
           </thead>
-
-          {/* Table Body */}
           <tbody>
             {table.getRowModel().rows.map((row) => (
               <tr
@@ -77,7 +70,7 @@ export default function Table(props) {
                     key={cell.id}
                     className="border border-gray-300 px-4 py-2 text-gray-600"
                   >
-                    {cell.getValue()}
+                    {cell.getValue() || "-"}
                   </td>
                 ))}
               </tr>
@@ -85,8 +78,6 @@ export default function Table(props) {
           </tbody>
         </table>
       </div>
-
-      {/* Table Footer */}
       {tableFooter && (
         <div className="mt-4">
           <BlocksRenderer content={tableFooter} />
