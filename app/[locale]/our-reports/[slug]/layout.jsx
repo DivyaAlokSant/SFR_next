@@ -13,9 +13,9 @@ export default async function Layout({ children, params }) {
   }
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex flex-col md:flex-row bg-gray-100 h-screen">
       {/* Sidebar */}
-      <div className="w-64 bg-gray-100 mx-auto rounded-xl py-5">
+      <div className="w-60 bg-gray-200 mx-auto rounded-xl py-5 h-full overflow-y-auto">
         <SidebarProvider>
           <AppSidebar
             chapters={chapters}
@@ -23,7 +23,7 @@ export default async function Layout({ children, params }) {
             locale={locale} // Pass locale to AppSidebar
           />
         </SidebarProvider>
-      </div>
+        </div>
 
       {/* Main Content */}
       <div className="flex-1 mx-auto bg-white/60 rounded-xl py-7 px-8 m-6">

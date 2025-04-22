@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { getAllReports } from "@/app/api";
+import SwitchTest from "@/components/ui/switchTest";
+
 
 export default async function Page({ params }) {
   const { locale } = await params; // Await the params object to access its properties
@@ -7,6 +9,7 @@ export default async function Page({ params }) {
 
   return (
     <div>
+      
       <h1>
         {locale === "en"
           ? "This is our Reports page. Welcome"
@@ -23,7 +26,7 @@ export default async function Page({ params }) {
               <div className="relative overflow-hidden">
                 {report.image?.formats?.small?.url ? (
                   <img
-                    className="transition duration-300 absolute inset-0 h-full w-full object-cover group-hover:scale-125 group-hover:rotate-12"
+                    className="transition duration-300 absolute inset-0 h-full w-full object-cover group-hover:scale-110"
                     src={`${process.env.NEXT_PUBLIC_API_BASE_URL}${report.image.formats.small.url}`}
                     alt={report.image.name || "Report Image"}
                   />

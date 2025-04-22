@@ -1,4 +1,4 @@
-import "@/app/globals.css"; // Adjusted path to the global CSS file
+import '../../globals.css'; // Adjusted path to the global CSS file
 import Link from "next/link";
 import NavLink from "@/app/components/NavLink"; // Corrected path to NavLink component
 import Footer from "@/app/components/Footer"; // Corrected path to Footer component

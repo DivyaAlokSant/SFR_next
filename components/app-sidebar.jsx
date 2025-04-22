@@ -1,4 +1,4 @@
-"use client";
+
 
 import Link from "next/link";
 import {
@@ -14,7 +14,7 @@ import {
 
 export function AppSidebar({ chapters, reportSlug, locale }) {
   return (
-    <div className="bg-gray-300">
+    <div className="h-full overflow-y-auto">
       <Sidebar>
         <SidebarContent>
           {chapters.map((chapter) => (
@@ -43,7 +43,6 @@ export function AppSidebar({ chapters, reportSlug, locale }) {
             </SidebarGroup>
           ))}
         </SidebarContent>
-        <SidebarRail />
       </Sidebar>
     </div>
   );
