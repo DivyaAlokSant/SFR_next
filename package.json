@@ -28,7 +28,6 @@
     "qs": "^6.14.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-pro-sidebar": "^1.1.0",
     "react-switch": "^7.1.0",
     "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7"
