@@ -1,12 +1,10 @@
 import Link from "next/link";
 import { getAllReports } from "@/app/api";
-import SwitchTest from "@/components/ui/switchTest";
 
 
 export default async function Page({ params }) {
-  const { locale } = await params; // Await the params object to access its properties
-  const reports = await getAllReports(locale); // Fetch reports for the current locale
-
+  const { locale } = await params; 
+  const reports = await getAllReports(locale);
   return (
     <div>
       
@@ -21,7 +19,7 @@ export default async function Page({ params }) {
             <Link
               className="group grid grid-cols-[140px_1fr] bg-white shadow rounded-lg overflow-hidden relative hover:bg-gradient-to-r from-white to-amber-50"
               key={report.id}
-              href={`/${locale}/our-reports/${report.slug}`} // Include locale in the URL
+              href={`/${locale}/our-reports/${report.slug}`} 
             >
               <div className="relative overflow-hidden">
                 {report.image?.formats?.small?.url ? (

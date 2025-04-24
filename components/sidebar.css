@@ -1,0 +1,17 @@
+/* filepath: c:\Development\StrapiNextReport\frontend\SFR_next\styles\sidebar.css */
+.pro-sidebar {
+    background-color: #f8f9fa;
+    width: 250px;
+    height: 100%;
+  }
+  
+  .pro-menu-item {
+    padding: 10px;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .pro-menu-item:hover {
+    background-color: #e9ecef;
+    color: #000;
+  }

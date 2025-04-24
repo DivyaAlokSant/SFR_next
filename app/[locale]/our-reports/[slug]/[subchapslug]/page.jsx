@@ -29,7 +29,7 @@ export default async function SubchapterPage(context) {
     const subchapterData = await fetchSubchapter(slug, subchapslug, locale);
     report = subchapterData.report;
     subchapter = subchapterData.subchapter;
-    console.log("subchapter", subchapter);
+    //console.log("subchapter", subchapter);
 
     // Fetch navigation links for subchapters
     const floatingBtnData = await fetchSubchapterFloatingBtn(slug, subchapslug, locale);
@@ -44,17 +44,17 @@ export default async function SubchapterPage(context) {
   const { previous, next } = getNavigationLinks(subChapters, subchapslug);
 
   return (
-    <div className="flex-1 p-5 relative">
-      {/* Floating Action Buttons */}
-      <div className="fixed bottom-80 right-1 z-50">
+    <div className=" p-0 relative">
+      
+      <div className="fixed bottom-40 right-1 z-50">
         <FloatingActionButtons
           back={previous ? `/${locale}/our-reports/${slug}/${previous.slug}` : null}
           forward={next ? `/${locale}/our-reports/${slug}/${next.slug}` : null}
         />
       </div>
 
-      {/* Main Content */}
-      <div className="p-10 bg-white shadow-md rounded-lg overflow-y-auto max-h-[calc(100vh-2rem)]">
+      
+      <div className="p-8 bg-white shadow-md rounded-lg overflow-y-auto max-h-[calc(100vh-2rem)]">
         {subchapter ? (
           <>
             <h1 className="text-3xl font-bold mb-4">{subchapter.subChapterName}</h1>
@@ -72,6 +72,7 @@ export default async function SubchapterPage(context) {
               : "ಉಪ ಅಧ್ಯಾಯ ಲಭ್ಯವಿಲ್ಲ ಅಥವಾ ಲೋಡ್ ಮಾಡಲು ವಿಫಲವಾಗಿದೆ."}
           </p>
         )}
+        
       </div>
     </div>
   );
