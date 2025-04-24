@@ -12,11 +12,11 @@ export function getNavigationLinks(subChapters, currentSubChapterSlug) {
     currentIndex < subChapters.length - 1 ? subChapters[currentIndex + 1] : null;
 
   return { previous, next };
-};
+}
 
-export default function FloatingActionButtons({ back, forward }) {
+export default function FloatingActionButtons({ back, forward, reportSlug, locale }) {
   return (
-    <div className= "flex gap-2 justify-center items-center  z-50">
+    <div className="flex gap-2 justify-center items-center z-50">
       {/* Back Button */}
       <Link href={back || "#"} passHref>
         <Button
@@ -31,7 +31,7 @@ export default function FloatingActionButtons({ back, forward }) {
       </Link>
 
       {/* Home Button */}
-      <Link href={`/our-reports`} passHref>
+      <Link href={`/${locale}/our-reports/${reportSlug}`} passHref>
         <Button
           variant="default"
           size="icon"

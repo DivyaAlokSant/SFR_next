@@ -10,7 +10,7 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children, params }) {
-  const { locale } =await params; 
+  const { locale } = await params; 
   return (
     <html lang={locale}>
       <head>
@@ -21,6 +21,10 @@ export default async function RootLayout({ children, params }) {
           <div className="absolute z-0 inset-0 overflow-hidden">
             <div className="circle-one blur-3xl w-64 h-64 rounded-full bg-rose-400/60 top-0 right-28 absolute"></div>
             <div className="circle-two blur-3xl w-64 h-64 rounded-full bg-indigo-400/60 bottom-0 left-28 absolute"></div>
+          </div>
+          {/* Language Switcher in the Top-Right Corner */}
+          <div className="absolute top-4 right-4 z-50">
+            <LanguageSwitcher currentLocale={locale} />
           </div>
           <header className="bg-white/50 backdrop-blur z-10">
             <div className="max-w-4xl mx-auto flex items-center justify-between">
@@ -39,8 +43,6 @@ export default async function RootLayout({ children, params }) {
                     <NavLink text="About Us" path={`/${locale}/about-us`} />
                   </li>
                 </ul>
-                {/* Include the Language Switcher */}
-                <LanguageSwitcher currentLocale={locale} />
               </nav>
             </div>
           </header>

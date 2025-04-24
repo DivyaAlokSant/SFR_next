@@ -2,7 +2,7 @@ import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 import Chart from '@/components/Chart';
 import Table from '@/components/table'
 import { fetchSubchapter, fetchSubchapterFloatingBtn } from '@/app/api';
-import FloatingActionButtons, { getNavigationLinks } from "@/app/FloatingButtons";
+import FloatingActionButtons, { getNavigationLinks } from "@/app/components/FloatingButtons";
 
 function OurRenderer(item, index) {
   if (item.__component === "content.chart-as-image") 
@@ -47,9 +47,11 @@ export default async function SubchapterPage(context) {
     <div className=" p-0 relative">
       
       <div className="fixed bottom-40 right-1 z-50">
-        <FloatingActionButtons
+      <FloatingActionButtons
           back={previous ? `/${locale}/our-reports/${slug}/${previous.slug}` : null}
           forward={next ? `/${locale}/our-reports/${slug}/${next.slug}` : null}
+          reportSlug={slug}
+          locale={locale}
         />
       </div>
 
