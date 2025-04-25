@@ -86,6 +86,9 @@ export async function fetchSubchapter(slug, subchapslug, locale = 'en') {
             "content.para-content": {
               populate: "*", // Populate all fields for the para component
             },
+            "content.bar-chart": {
+              populate: "*", // Populate all fields for the chart component
+            },
           },
         },
         chapter: {

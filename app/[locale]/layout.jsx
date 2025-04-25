@@ -46,7 +46,7 @@ export default async function RootLayout({ children, params }) {
               </nav>
             </div>
           </header>
-          <main className="backdrop-blur max-w-6xl mx-auto bg-white/60 rounded-xl py-7 px-8 m-6">
+          <main className="backdrop-blur max-w-6xl min-h-fit mx-auto bg-white/60 rounded-xl py-7 px-8 ">
             {children}
           </main>
           <Footer />

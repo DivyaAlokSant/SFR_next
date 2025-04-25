@@ -1,5 +1,6 @@
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 import Chart from '@/components/Chart';
+import BarChart from '@/app/components/barChart';
 import Table from '@/components/table'
 import { fetchSubchapter, fetchSubchapterFloatingBtn } from '@/app/api';
 import FloatingActionButtons, { getNavigationLinks } from "@/app/components/FloatingButtons";
@@ -14,6 +15,9 @@ function OurRenderer(item, index) {
 
   if (item.__component === "content.table") {
     return <Table key={index}data={item} />;
+  }
+  if (item.__component === "content.bar-chart") {
+    return <BarChart key={index} item={item} />;
   }
 
   // Fallback for unknown components
