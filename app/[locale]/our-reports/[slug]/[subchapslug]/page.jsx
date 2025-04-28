@@ -1,9 +1,10 @@
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
-import Chart from '@/components/Chart';
+import Chart from '@/components/ChartAsImage';
 import BarChart from '@/app/components/barChart';
 import Table from '@/components/table'
 import { fetchSubchapter, fetchSubchapterFloatingBtn } from '@/app/api';
 import FloatingActionButtons, { getNavigationLinks } from "@/app/components/FloatingButtons";
+import LineChart from '@/app/components/linechart';
 
 function OurRenderer(item, index) {
   if (item.__component === "content.chart-as-image") 
@@ -17,7 +18,12 @@ function OurRenderer(item, index) {
     return <Table key={index}data={item} />;
   }
   if (item.__component === "content.bar-chart") {
+    //console.log("BarChart Parent - Item Data:", item);
     return <BarChart key={index} item={item} />;
+  }
+  if (item.__component === "content.line-chart") {
+    //console.log("LineChart Parent - Item Data:", item); 
+    return <LineChart key={index} item={item} />;
   }
 
   // Fallback for unknown components

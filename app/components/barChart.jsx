@@ -12,49 +12,103 @@ import {
 } from "recharts";
 
 export default function BarChart({ item }) {
-  // Log the item to inspect its structure
-  console.log("BarChart Component - Item Data:", item);
+  // console.log("BarChart Component - Item Data:", item);
 
-  // Extract data and configuration from the item
   const chartData = item.chartData || []; // Array of data points
   const chartConfig = {
     xKey: item.Xkey?.toLowerCase(),
-    tooltipEnabled: item.TooltipEnabled || true, // Corrected key for tooltips
-    legendEnabled: item.LegendEnables || true, // Corrected key for legend
-    barColors: item.barColors || [], // Optional bar colors
+    tooltipEnabled: item.TooltipEnabled || true, 
+    legendEnabled: item.LegendEnables || true, 
+    barColors: item.barColors || [], 
   };
 
   const { xKey, tooltipEnabled, legendEnabled, barColors } = chartConfig;
 
-  // Log xKey and chartData for debugging
-  console.log("BarChart Component - xKey:", xKey);
-  console.log("BarChart Component - chartData:", chartData);
-
-  // Dynamically extract keys for the bars (excluding the xKey)
   const barKeys = chartData.length > 0 ? Object.keys(chartData[0]).filter((key) => key !== xKey) : [];
 
   return (
-    <ResponsiveContainer width="100%" height={400}>
-      <RechartsBarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 80 }}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis
-          dataKey={xKey}
-          tick={{ fontSize: 14, fill: "#555" }} // Customize tick style
-          tickMargin={10} // Add margin between the axis and the labels
-          interval={0} // Ensure all labels are displayed
-          angle={0} // Keep labels horizontal
-        />
-        <YAxis />
-        {tooltipEnabled && <Tooltip />}
-        {legendEnabled && <Legend />}
-        {barKeys.map((barKey, index) => (
-          <Bar
-            key={index}
-            dataKey={barKey}
-            fill={barColors[index] || `hsl(var(--chart-${(index % 5) + 1}))`} // Use dynamic colors
+    <div className="space-y-4">
+      {/* Chart Title */}
+      {item.Title && (
+        <h2 className="text-xl font-bold text-gray-700 text-center">{item.Title}</h2>
+      )}
+
+      {/* Chart Container */}
+      <ResponsiveContainer width="100%" height={400}>
+        <RechartsBarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 80 }}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis
+            dataKey={xKey}
+            tick={{ fontSize: 14, fill: "#555" }} 
+            tickMargin={10} 
+            interval={0} 
+            angle={0} 
           />
-        ))}
-      </RechartsBarChart>
-    </ResponsiveContainer>
+          <YAxis />
+          {tooltipEnabled && (
+            <Tooltip
+              contentStyle={{
+                fontSize: "12px", 
+                padding: "4px 4px 4px 4px", 
+                borderRadius: "4px", 
+                lineHeight: "1.0", 
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+              }}
+              itemStyle={{
+                fontSize: "12px", 
+                color: "#555", 
+              }}
+              formatter={(value, name, props) => {
+                const barIndex = barKeys.indexOf(name);
+                const color = barColors[barIndex] || `hsl(var(--chart-${(barIndex % 5) + 1}))`;
+                return (
+                  <span style={{ color }}>
+                    {value}
+                  </span>
+                );
+              }}
+            />
+          )}
+          {legendEnabled && <Legend />}
+          {barKeys.map((barKey, index) => (
+            <Bar
+              key={index}
+              dataKey={barKey}
+              fill={barColors[index] || `hsl(var(--chart-${(index % 5) + 1}))`} 
+              radius={[5, 5, 0, 0]} 
+            />
+          ))}
+        </RechartsBarChart>
+      </ResponsiveContainer>
+    </div>
   );
 }
+
+
+// sample data
+// [
+//   {
+//     "month": "January",
+//     "2020-21": -120,
+//     "South": 100,
+//     "west": 130
+//   },
+//   {
+//     "month": "February",
+//     "2020-21": 150,
+//     "South": 140,
+//     "west": 120
+//   },
+//   {
+//     "month": "March",
+//     "2020-21": 180,
+//     "South": 160,
+//     "west": 150
+//   },
+//   {
+//     "month": "April",
+//     "2020-21": 200,
+//     "South": 190,
+//     "west": 120
+//   }
+// ]

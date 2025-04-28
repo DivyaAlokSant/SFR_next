@@ -15,7 +15,7 @@ export default function ReportList({ reports, locale }) {
             <div className="relative overflow-hidden">
               {report.image?.formats?.small?.url ? (
                 <img
-                  className="transition duration-300 absolute inset-0 h-full w-full object-cover group-hover:scale-110"
+                  className="transition duration-300 absolute inset-0 h-full w-auto object-cover group-hover:scale-110"
                   src={`${process.env.NEXT_PUBLIC_API_BASE_URL}${report.image.formats.small.url}`}
                   alt={report.image.name || "Report Image"}
                 />

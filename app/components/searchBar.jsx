@@ -26,7 +26,7 @@ export default function SearchBar({ data, filterKeys, placeholder, onResults }) 
         placeholder={placeholder || "Search..."}
         value={searchQuery}
         onChange={(e) => handleSearch(e.target.value)}
-        className="w-full p-0 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full pl-2 border  border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
     </div>
   );

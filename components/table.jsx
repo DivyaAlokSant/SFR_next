@@ -7,7 +7,7 @@ export default function Table(props) {
   const { data } = props;
   const { tableHeader, tableData, tableFooter } = data;
 
-  console.log("Table Data:", tableData);
+  //console.log("Table Data:", tableData);
 
   if (!tableData || tableData.length === 0) {
     return <p>No data available</p>;
