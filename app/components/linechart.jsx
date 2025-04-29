@@ -102,3 +102,28 @@ export default function LineChart({ item }) {
     </div>
   );
 }
+
+
+// Sample data 
+// [
+//     {
+//       "month": "January",
+//       "North": -10,
+//       "South": 80
+//     },
+//     {
+//       "month": "Februrary",
+//       "North": 70,
+//       "South": 120
+//     },
+//     {
+//       "month": "March",
+//       "North": 110,
+//       "South": -20
+//     },
+//     {
+//       "month": "April",
+//       "North": 120,
+//       "South": 70
+//     }
+//   ]

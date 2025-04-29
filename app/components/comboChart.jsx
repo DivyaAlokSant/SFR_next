@@ -124,7 +124,7 @@ export default function ComboChart({ item }) {
     };
 
     return (
-        <div className="space-y-4 bg-slate-50 p-4 rounded-md">
+        <div className="space-y-4 bg-lime-50 p-4 rounded-md">
             {/* Chart Title */}
             {chartTitle && (
                 <h2 className="text-xl font-bold text-gray-700 text-center">{chartTitle}</h2>

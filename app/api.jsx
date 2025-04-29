@@ -95,6 +95,9 @@ export async function fetchSubchapter(slug, subchapslug, locale = 'en') {
             "content.combo-bar-line-chart": {
               populate: "*", // Populate all fields for the line chart component
             },
+            "content.pie-chart": {
+              populate: "*", // Populate all fields for the line chart component
+            },
           },
         },
         chapter: {
