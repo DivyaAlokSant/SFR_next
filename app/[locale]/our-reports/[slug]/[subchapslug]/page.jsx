@@ -5,6 +5,7 @@ import Table from '@/components/table'
 import { fetchSubchapter, fetchSubchapterFloatingBtn } from '@/app/api';
 import FloatingActionButtons, { getNavigationLinks } from "@/app/components/FloatingButtons";
 import LineChart from '@/app/components/linechart';
+import ComboBarLineChart from '@/app/components/comboBarLineChart';
 
 function OurRenderer(item, index) {
   if (item.__component === "content.chart-as-image") 
@@ -24,6 +25,10 @@ function OurRenderer(item, index) {
   if (item.__component === "content.line-chart") {
     //console.log("LineChart Parent - Item Data:", item); 
     return <LineChart key={index} item={item} />;
+  }
+  if (item.__component === "content.combo-bar-line-chart") {
+    console.log("ComboBarLineChart Parent - Item Data:", item); 
+    return <ComboBarLineChart key={index} item={item} />;
   }
 
   // Fallback for unknown components
