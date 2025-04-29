@@ -1,5 +1,6 @@
 "use client";
 
+import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 import {
   BarChart as RechartsBarChart,
   Bar,
@@ -27,7 +28,7 @@ export default function BarChart({ item }) {
   const barKeys = chartData.length > 0 ? Object.keys(chartData[0]).filter((key) => key !== xKey) : [];
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-1  bg-amber-50 p-2 rounded-md">
       {/* Chart Title */}
       {item.Title && (
         <h2 className="text-xl font-bold text-gray-700 text-center">{item.Title}</h2>
@@ -35,7 +36,7 @@ export default function BarChart({ item }) {
 
       {/* Chart Container */}
       <ResponsiveContainer width="100%" height={400}>
-        <RechartsBarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 80 }}>
+        <RechartsBarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis
             dataKey={xKey}
@@ -80,7 +81,13 @@ export default function BarChart({ item }) {
           ))}
         </RechartsBarChart>
       </ResponsiveContainer>
+      {item.chartFooter && (
+        <div className="pt-0">
+          <BlocksRenderer content={item.chartFooter} />
+        </div>
+      )}
     </div>
+
   );
 }
 

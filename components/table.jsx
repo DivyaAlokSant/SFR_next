@@ -35,7 +35,7 @@ export default function Table(props) {
   });
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-1">
       <h2 className="text-xl font-bold">{tableHeader}</h2>
       <div className="overflow-x-auto">
         <table className="w-full border-collapse border border-gray-300 text-left text-sm">
@@ -77,9 +77,9 @@ export default function Table(props) {
             ))}
           </tbody>
         </table>
-      </div>
+      </div >
       {tableFooter && (
-        <div className="mt-4">
+        <div className="pt-1">
           <BlocksRenderer content={tableFooter} />
         </div>
       )}

@@ -1,5 +1,6 @@
 "use client";
 
+import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 import {
   LineChart as RechartsLineChart,
   Line,
@@ -35,13 +36,13 @@ export default function LineChart({ item }) {
   const lineKeys = chartData.length > 0 ? Object.keys(chartData[0]).filter((key) => key !== xKey) : [];
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-2  bg-slate-50 p-1 rounded-md">
       {item.chartTitle && (
         <h2 className="text-xl font-bold text-gray-700 text-center">{item.chartTitle}</h2>
       )}
 
       <ResponsiveContainer width="100%" height={400}>
-        <RechartsLineChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 80 }}>
+        <RechartsLineChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis
             dataKey={xKey}
@@ -89,6 +90,11 @@ export default function LineChart({ item }) {
           ))}
         </RechartsLineChart>
       </ResponsiveContainer>
+      {item.chartFooter && (
+        <div className="pt-0">
+          <BlocksRenderer content={item.chartFooter} />
+        </div>
+      )}
     </div>
   );
 }
