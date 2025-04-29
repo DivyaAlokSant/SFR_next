@@ -5,18 +5,18 @@ import Table from '@/components/table'
 import { fetchSubchapter, fetchSubchapterFloatingBtn } from '@/app/api';
 import FloatingActionButtons, { getNavigationLinks } from "@/app/components/FloatingButtons";
 import LineChart from '@/app/components/linechart';
-import ComboBarLineChart from '@/app/components/comboBarLineChart';
+import ComboChart from '@/app/components/comboChart';
 
 function OurRenderer(item, index) {
-  if (item.__component === "content.chart-as-image") 
+  if (item.__component === "content.chart-as-image")
     return <Chart key={index} data={item} />;
-  
+
   if (item.__component === "content.para-content") {
     return <BlocksRenderer key={index} content={item.text} />;
   }
 
   if (item.__component === "content.table") {
-    return <Table key={index}data={item} />;
+    return <Table key={index} data={item} />;
   }
   if (item.__component === "content.bar-chart") {
     //console.log("BarChart Parent - Item Data:", item);
@@ -27,8 +27,8 @@ function OurRenderer(item, index) {
     return <LineChart key={index} item={item} />;
   }
   if (item.__component === "content.combo-bar-line-chart") {
-    console.log("ComboBarLineChart Parent - Item Data:", item); 
-    return <ComboBarLineChart key={index} item={item} />;
+    console.log("ComboChart Parent - Item Data:", item);
+    return <ComboChart key={index} item={item} />;
   }
 
   // Fallback for unknown components
@@ -60,9 +60,9 @@ export default async function SubchapterPage(context) {
 
   return (
     <div className=" p-0 relative">
-      
+
       <div className="fixed bottom-40 right-1 z-50">
-      <FloatingActionButtons
+        <FloatingActionButtons
           back={previous ? `/${locale}/our-reports/${slug}/${previous.slug}` : null}
           forward={next ? `/${locale}/our-reports/${slug}/${next.slug}` : null}
           reportSlug={slug}
@@ -70,7 +70,7 @@ export default async function SubchapterPage(context) {
         />
       </div>
 
-      
+
       <div className="p-8 bg-white shadow-md rounded-lg overflow-y-auto max-h-[calc(100vh-2rem)]">
         {subchapter ? (
           <>
@@ -89,7 +89,7 @@ export default async function SubchapterPage(context) {
               : "ಉಪ ಅಧ್ಯಾಯ ಲಭ್ಯವಿಲ್ಲ ಅಥವಾ ಲೋಡ್ ಮಾಡಲು ವಿಫಲವಾಗಿದೆ."}
           </p>
         )}
-        
+
       </div>
     </div>
   );

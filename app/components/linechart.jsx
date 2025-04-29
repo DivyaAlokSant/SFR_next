@@ -10,6 +10,7 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  LabelList,
 } from "recharts";
 
 export default function LineChart({ item }) {
@@ -17,8 +18,6 @@ export default function LineChart({ item }) {
     console.error("LineChart: Missing or invalid item prop:", item);
     return <p>Line chart data is not available.</p>;
   }
-
-  console.log("LineChart Component - Item Data:", item);
 
   const chartData = item.chartData || [];
   const chartConfig = {
@@ -29,9 +28,6 @@ export default function LineChart({ item }) {
   };
 
   const { xKey, tooltipEnabled, legendEnabled, lineColors } = chartConfig;
-
-  console.log("LineChart Component - xKey:", xKey);
-  console.log("LineChart Component - chartData:", chartData);
 
   const lineKeys = chartData.length > 0 ? Object.keys(chartData[0]).filter((key) => key !== xKey) : [];
 
@@ -86,7 +82,15 @@ export default function LineChart({ item }) {
               strokeWidth={2}
               dot={{ r: 4 }}
               activeDot={{ r: 6 }}
-            />
+            >
+              <LabelList
+                dataKey={lineKey}
+                position="top"
+                offset={10}
+                style={{ fontSize: 12 , fontWeight: "bold", fill: lineColors[index] || "#222" }}
+                formatter={(value) => value}
+              />
+            </Line>
           ))}
         </RechartsLineChart>
       </ResponsiveContainer>
@@ -98,28 +102,3 @@ export default function LineChart({ item }) {
     </div>
   );
 }
-
-
-// Sample data
-// [
-//     {
-//       "month": "January",
-//       "North": -10,
-//       "South": 80
-//     },
-//     {
-//       "month": "Februrary",
-//       "North": 70,
-//       "South": 120
-//     },
-//     {
-//       "month": "March",
-//       "North": 110,
-//       "South": -20
-//     },
-//     {
-//       "month": "April",
-//       "North": 120,
-//       "South": 70
-//     }
-//   ]

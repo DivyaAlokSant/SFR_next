@@ -10,6 +10,8 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  LabelList,
+
 } from "recharts";
 
 export default function BarChart({ item }) {
@@ -75,9 +77,17 @@ export default function BarChart({ item }) {
             <Bar
               key={index}
               dataKey={barKey}
-              fill={barColors[index] || `hsl(var(--chart-${(index % 5) + 1}))`} 
-              radius={[5, 5, 0, 0]} 
-            />
+              fill={barColors[index] || `hsl(var(--chart-${(index % 5) + 1}))`}
+              radius={[5, 5, 0, 0]}
+            >
+              <LabelList
+                dataKey={barKey}
+                position="top"
+                offset={8}
+                style={{ fontSize: 12, fontWeight: 600, fill: barColors[index] || "#222" }}
+                formatter={(value) => value}
+              />
+            </Bar>
           ))}
         </RechartsBarChart>
       </ResponsiveContainer>
