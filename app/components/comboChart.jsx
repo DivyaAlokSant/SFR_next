@@ -129,11 +129,11 @@ export default function ComboChart({ item }) {
                 <h2 className="text-xl font-bold text-gray-700 text-center">{chartTitle}</h2>
             )}
             <div className="relative w-full" style={{ paddingTop: "56.25%" }}>
-                <div className="absolute inset-0 transition-all duration-300">
+                <div className="absolute w-full inset-0 transition-all duration-300" style={{ height: 400 }}>
                     <Chart
                         type="bar"
                         data={data}
-                        options={{ ...options, maintainAspectRatio: true }}
+                        options={{ ...options, maintainAspectRatio: false }}
                         plugins={[ChartDataLabels]}
                     />
                 </div>

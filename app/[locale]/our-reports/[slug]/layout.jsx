@@ -1,5 +1,5 @@
 import SidebarPro from "@/components/sidebar-pro";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { fetchChapters } from "@/app/api";
 
 export default async function Layout({ children, params }) {
@@ -14,9 +14,13 @@ export default async function Layout({ children, params }) {
 
   return (
     <SidebarProvider>
-      <div className="flex flex-col md:flex-row bg-gray-100 h-screen">
+      <div className="relative flex bg-gray-100 min-h-screen">
+        {/* Sidebar */}
         <SidebarPro chapters={chapters} reportSlug={slug} locale={locale} />
-        <div className="flex-1 mx-auto bg-white/60 rounded-xl py-2 px-2 m-4">
+        {/* Sidebar toggle button (visible on mobile, hidden on desktop) */}
+        <SidebarTrigger className="fixed top-4 left-4 z-50 md:hidden" />
+        {/* Main content: add left margin on desktop to avoid being hidden */}
+        <div className="flex-1 mx-auto bg-white/60 rounded-xl py-2 px-2 m-4 min-w-0 md:ml-[16rem] transition-all">
           {children}
         </div>
       </div>

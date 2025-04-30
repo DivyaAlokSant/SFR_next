@@ -28,7 +28,7 @@ export default async function RootLayout({ children, params }) {
           </div>
           <header className="bg-white/50 backdrop-blur z-10">
             <div className="max-w-4xl mx-auto flex items-center justify-between">
-              <h2 className="text-2xl text-gray-700 py-6">
+              <h2 className="text-xl text-gray-700 py-3">
                 IAAD Karnataka Reports
               </h2>
               <nav className="flex items-center gap-x-4">

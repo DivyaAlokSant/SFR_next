@@ -12,6 +12,7 @@ export async function getAllReports(locale = 'en') {
 
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/reports?${query}`);
     const data = await response.json();
+    console.log("reports data", data)
     return data.data || [];
   } catch (error) {
     console.error("Failed to fetch reports:", error);
@@ -53,6 +54,7 @@ export async function fetchReport(slug, locale = 'en') {
   }
 
   const data = await response.json();
+  console.log("Reports data",data)
   return data.data?.[0] || null; // Return the first report or null if not found
 }
 

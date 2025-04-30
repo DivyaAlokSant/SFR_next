@@ -11,10 +11,10 @@ export default function SearchAndReportList({ reports, locale }) {
     <>
       <SearchBar
         data={reports}
-        filterKeys={["title", "description", "year"]}
+        filterKeys={["title", "description", "year","Tags"]}
         placeholder={
           locale === "en"
-            ? "Search Reports by name, year, or description..."
+            ? "Search Reports by name, year, tags or description..."
             : "ಹೆಸರು, ವರ್ಷ, ಅಥವಾ ವಿವರಣೆಯ ಮೂಲಕ ಹುಡುಕಿ..."
         }
         onResults={setFilteredReports}
