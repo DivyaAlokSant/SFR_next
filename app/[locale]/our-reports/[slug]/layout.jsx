@@ -15,11 +15,8 @@ export default async function Layout({ children, params }) {
   return (
     <SidebarProvider>
       <div className="flex flex-col md:flex-row bg-gray-100 h-screen">
-        {/* Sidebar */}
         <SidebarPro chapters={chapters} reportSlug={slug} locale={locale} />
-
-        {/* Main Content */}
-        <div className="flex-1 mx-auto bg-white/60 rounded-xl py-7 px-8 m-6">
+        <div className="flex-1 mx-auto bg-white/60 rounded-xl py-2 px-2 m-4">
           {children}
         </div>
       </div>

@@ -53,14 +53,14 @@ export default function StackBarChart({ item }) {
                 fontWeight= {600}
                 textAnchor="middle"
                 dominantBaseline="central"
-            >
+                >
                 {total}
             </text>
         );
     };
 
     return (
-        <div className="space-y-2 bg-amber-50 p-2 rounded-md">
+        <div className="space-y-2 bg-rose-50 p-2 rounded-md">
             {chartTitle && (
                 <h2 className="text-xl font-bold text-gray-700 text-center">{chartTitle}</h2>
             )}
@@ -107,7 +107,7 @@ export default function StackBarChart({ item }) {
                             stackId="a"
                             fill={barColors[index] || `hsl(var(--chart-${(index % 5) + 1}))`}
                             radius={[5, 5, 0, 0]}
-                            isAnimationActive={false}
+                            isAnimationActive={true}
                         >
                             <LabelList
                                 dataKey={barKey}
@@ -139,9 +139,9 @@ export default function StackBarChart({ item }) {
 //     chartTitle: "Stacked Bar Chart Example",
 //     chartData: [
 //       { "month": "January", "North": 40, "South": 24, "East": 30, "West": 20 },
-//       { "month": "January", "North": 50, "South": 34, "East": 60, "West": 30 },
-//       { "month": "January", "North": 25, "South": 24, "East": 40, "West": 10 },
-//       { "month": "January", "North": 35, "South": 22, "East": 32, "West": 15 }
+//       { "month": "February", "North": 50, "South": 34, "East": 60, "West": 30 },
+//       { "month": "March", "North": 25, "South": 24, "East": 40, "West": 10 },
+//       { "month": "April", "North": 35, "South": 22, "East": 32, "West": 15 }
 //     ],
 //     barColors: ["#8884d8", "#82ca9d", "#ffc658", "#ff7300"],
 //     tooltipEnabled: true,

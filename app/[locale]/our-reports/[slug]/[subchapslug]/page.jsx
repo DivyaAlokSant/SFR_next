@@ -81,7 +81,7 @@ export default async function SubchapterPage(context) {
       </div>
 
 
-      <div className="p-8 bg-white shadow-md rounded-lg overflow-y-auto max-h-[calc(100vh-2rem)]">
+      <div className="p-6 bg-white shadow-md rounded-lg overflow-y-auto max-h-[calc(100vh-2rem)]">
         {subchapter ? (
           <>
             <h1 className="text-3xl font-bold mb-4">{subchapter.subChapterName}</h1>

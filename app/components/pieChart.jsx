@@ -24,7 +24,7 @@ export default function PieChart({ item }) {
   const [xkey, ykey] = keys;
 
   return (
-    <div className="space-y-4 bg-cyan-50 p-4 rounded-md">
+    <div className="space-y-1 bg-cyan-50 p-1 rounded-md">
       {chartTitle && (
         <h2 className="text-xl font-bold text-gray-700 text-center">{chartTitle}</h2>
       )}
@@ -80,7 +80,7 @@ export default function PieChart({ item }) {
         </RechartsPieChart>
       </ResponsiveContainer>
       {chartFooter && (
-        <div className="pt-4 border border-gray-300 rounded-md">
+        <div className="pt-0 ">
           <BlocksRenderer content={chartFooter} />
         </div>
       )}
