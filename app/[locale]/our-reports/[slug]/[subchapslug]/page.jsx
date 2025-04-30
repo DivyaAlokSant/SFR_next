@@ -7,6 +7,7 @@ import FloatingActionButtons, { getNavigationLinks } from "@/app/components/Floa
 import LineChart from '@/app/components/linechart';
 import ComboChart from '@/app/components/comboChart';
 import PieChart from '@/app/components/pieChart';
+import StackBarChart from '@/app/components/stackBarChart';
 
 function OurRenderer(item, index) {
   if (item.__component === "content.chart-as-image")
@@ -32,8 +33,12 @@ function OurRenderer(item, index) {
     return <ComboChart key={index} item={item} />;
   }
   if (item.__component === "content.pie-chart") {
-    console.log("Pie Parent - Item Data:", item);
+    // console.log("Pie Parent - Item Data:", item);
     return <PieChart key={index} item={item} />;
+  }
+  if (item.__component === "content.stack-bar-chart") {
+    console.log("Stacked Bar chart Parent - Item Data:", item);
+    return <StackBarChart key={index} item={item} />;
   }
 
   // Fallback for unknown components
