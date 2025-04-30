@@ -3,7 +3,7 @@
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, LineElement, PointElement, Legend, Tooltip } from "chart.js";
 import { Chart } from "react-chartjs-2";
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
-import ChartDataLabels from "chartjs-plugin-datalabels"; 
+import ChartDataLabels from "chartjs-plugin-datalabels";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, LineElement, PointElement, Legend, Tooltip, ChartDataLabels);
 
@@ -124,21 +124,28 @@ export default function ComboChart({ item }) {
     };
 
     return (
-        <div className="space-y-4 bg-lime-50 p-4 rounded-md">
-            {/* Chart Title */}
+        <div className="space-y-4 bg-lime-50 p-4 rounded-md transition-all duration-300">
             {chartTitle && (
                 <h2 className="text-xl font-bold text-gray-700 text-center">{chartTitle}</h2>
             )}
-            <Chart type="bar" data={data} options={options} plugins={[ChartDataLabels]} />
+            <div className="relative w-full" style={{ paddingTop: "56.25%" }}>
+                <div className="absolute inset-0 transition-all duration-300">
+                    <Chart
+                        type="bar"
+                        data={data}
+                        options={{ ...options, maintainAspectRatio: true }}
+                        plugins={[ChartDataLabels]}
+                    />
+                </div>
+            </div>
             {chartFooter && (
-                <div className="pt-4 border border-gray-300 rounded-md">
+                <div className="pt-4 border border-gray-300 rounded-md transition-all duration-300">
                     <BlocksRenderer content={chartFooter} />
                 </div>
             )}
         </div>
     );
 }
-
 
 // {
 //     "xkey": "month",
