@@ -11,7 +11,7 @@ export default function Footer() {
 
   return (
     <footer className="bg-white/50 z-10 backdrop-blur">
-      <div className="mx-auto max-w-4xl text-center py-6 text-sm text-gray-400">
+      <div className="mx-auto max-w-4xl text-center py-2 text-sm text-gray-400">
         <p>&copy; {new Date().getFullYear()} Our Company.</p>
         <p>
           You have clicked the following button {count} times. <button onClick={handleClick}>Click Me</button>

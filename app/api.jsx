@@ -4,7 +4,7 @@ export async function getAllReports(locale = 'en') {
   try {
     const query = qs.stringify(
       {
-        locale, // Include the locale parameter
+        locale, 
         populate: '*',
       },
       { encodeValuesOnly: true }

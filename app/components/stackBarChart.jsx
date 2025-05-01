@@ -40,9 +40,7 @@ export default function StackBarChart({ item }) {
     // Custom label renderer for stack totals
     const renderStackTotal = (props) => {
         const { x, width, index } = props;
-        // Find the y position at the top of the stack
         const total = totals[index];
-        // Find the y position for the top of the stack
         const y = props.y - 10;
         return (
             <text
@@ -50,85 +48,93 @@ export default function StackBarChart({ item }) {
                 y={y}
                 fill="#222"
                 fontSize={15}
-                fontWeight= {600}
+                fontWeight={600}
                 textAnchor="middle"
                 dominantBaseline="central"
-                >
+            >
                 {total}
             </text>
         );
     };
 
     return (
-        <div className="space-y-2 bg-rose-50 p-2 rounded-md">
-            {chartTitle && (
-                <h2 className="text-xl font-bold text-gray-700 text-center">{chartTitle}</h2>
-            )}
-            <ResponsiveContainer width="100%" height={400}>
-                <RechartsBarChart data={chartData} margin={{ top: 30, right: 30, left: 20, bottom: 20 }}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis
-                        dataKey={xKey}
-                        tick={{ fontSize: 14, fill: "#555" }}
-                        tickMargin={10}
-                        interval={0}
-                        angle={0}
-                    />
-                    <YAxis />
-                    {tooltipEnabled && (
-                        <Tooltip
-                            contentStyle={{
-                                fontSize: "12px",
-                                padding: "4px 4px 4px 4px",
-                                borderRadius: "4px",
-                                lineHeight: "1.0",
-                                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-                            }}
-                            itemStyle={{
-                                fontSize: "12px",
-                                color: "#555",
-                            }}
-                            formatter={(value, name, props) => {
-                                const barIndex = barKeys.indexOf(name);
-                                const color = barColors[barIndex] || `hsl(var(--chart-${(barIndex % 5) + 1}))`;
-                                return (
-                                    <span style={{ color }}>
-                                        {value}
-                                    </span>
-                                );
-                            }}
-                        />
+        <div className="rounded-md my-2">
+            <div className="overflow-x-auto">
+                <div className="w-full bg-white rounded-lg border border-gray-300">
+                    {/* Chart Header */}
+                    {chartTitle && (
+                        <div className="w-full text-lg font-semibold text-gray-700 py-3 bg-gray-100 border-b border-gray-300 rounded-t-lg text-center">
+                            {chartTitle}
+                        </div>
                     )}
-                    {legendEnabled && <Legend />}
-                    {barKeys.map((barKey, index) => (
-                        <Bar
-                            key={barKey}
-                            dataKey={barKey}
-                            stackId="a"
-                            fill={barColors[index] || `hsl(var(--chart-${(index % 5) + 1}))`}
-                            radius={[5, 5, 0, 0]}
-                            isAnimationActive={true}
-                        >
-                            <LabelList
-                                dataKey={barKey}
-                                position="insideTop"
-                                offset={8}
-                                style={{ fontSize: 12, fontWeight: 600, fill: "#fff" }}
-                                formatter={(value) => value}
+                    <ResponsiveContainer width="100%" height={400}>
+                        <RechartsBarChart data={chartData} margin={{ top: 30, right: 30, left: 20, bottom: 20 }}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis
+                                dataKey={xKey}
+                                tick={{ fontSize: 14, fill: "#555" }}
+                                tickMargin={10}
+                                interval={0}
+                                angle={0}
                             />
-                            {/* Only add the total label to the last bar in the stack */}
-                            {index === barKeys.length - 1 && (
-                                <LabelList dataKey={xKey} content={renderStackTotal} />
+                            <YAxis />
+                            {tooltipEnabled && (
+                                <Tooltip
+                                    contentStyle={{
+                                        fontSize: "12px",
+                                        padding: "4px 4px 4px 4px",
+                                        borderRadius: "4px",
+                                        lineHeight: "1.0",
+                                        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+                                    }}
+                                    itemStyle={{
+                                        fontSize: "12px",
+                                        color: "#555",
+                                    }}
+                                    formatter={(value, name) => {
+                                        const barIndex = barKeys.indexOf(name);
+                                        const color = barColors[barIndex] || `hsl(var(--chart-${(barIndex % 5) + 1}))`;
+                                        return (
+                                            <span style={{ color }}>
+                                                {value}
+                                            </span>
+                                        );
+                                    }}
+                                />
                             )}
-                        </Bar>
-                    ))}
-                </RechartsBarChart>
-            </ResponsiveContainer>
-            {chartFooter && (
-                <div className="pt-0">
-                    <BlocksRenderer content={chartFooter} />
+                            {legendEnabled && <Legend />}
+                            {barKeys.map((barKey, index) => (
+                                <Bar
+                                    key={barKey}
+                                    dataKey={barKey}
+                                    stackId="a"
+                                    fill={barColors[index] || `hsl(var(--chart-${(index % 5) + 1}))`}
+                                    radius={[5, 5, 0, 0]}
+                                    isAnimationActive={true}
+                                >
+                                    <LabelList
+                                        dataKey={barKey}
+                                        position="insideTop"
+                                        offset={8}
+                                        style={{ fontSize: 12, fontWeight: 600, fill: "#fff" }}
+                                        formatter={(value) => value}
+                                    />
+                                    {/* Only add the total label to the last bar in the stack */}
+                                    {index === barKeys.length - 1 && (
+                                        <LabelList dataKey={xKey} content={renderStackTotal} />
+                                    )}
+                                </Bar>
+                            ))}
+                        </RechartsBarChart>
+                    </ResponsiveContainer>
+                    {/* Chart Footer */}
+                    {chartFooter && (
+                        <div className="w-full bg-gray-100 border-t border-gray-300 rounded-b-lg px-4 py-1 text-xs italic leading-tight footer-blocks">
+                            <BlocksRenderer content={chartFooter} />
+                        </div>
+                    )}
                 </div>
-            )}
+            </div>
         </div>
     );
 }

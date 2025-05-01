@@ -166,3 +166,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+.footer-blocks p,
+.footer-blocks ul,
+.footer-blocks ol {
+  margin-top: 0.1rem;
+  margin-bottom: 0.1rem;
+}

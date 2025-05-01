@@ -2,7 +2,6 @@
 
 import { PieChart as RechartsPieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
-import { data } from "autoprefixer";
 
 export default function PieChart({ item }) {
   // Accepts either item.pieChartData or item.chartData for flexibility
@@ -24,66 +23,72 @@ export default function PieChart({ item }) {
   const [xkey, ykey] = keys;
 
   return (
-    <div className="space-y-1 bg-cyan-50 p-1 rounded-md">
-      {chartTitle && (
-        <h2 className="text-xl font-bold text-gray-700 text-center">{chartTitle}</h2>
-      )}
-      <ResponsiveContainer width="100%" height={400}>
-        <RechartsPieChart>
-          <Pie
-            data={pieChartData}
-            dataKey={ykey}
-            nameKey={xkey}
-            cx="50%"
-            cy="50%"
-            innerRadius={80}
-            outerRadius={120}
-            paddingAngle={2}
-            label={({ name, value, percent }) =>
-                `${name}: ${value} (${(percent * 100).toFixed(0)}%)`
-              }
-          >
-            {pieChartData.map((entry, idx) => (
-              <Cell
-                key={`cell-${idx}`}
-                fill={pieColors[idx] || `hsl(var(--chart-${(idx % 5) + 1}))`}
-              />
-            ))}
-          </Pie>
-          {tooltipEnabled && (
-  <Tooltip
-    contentStyle={{
-      fontSize: "12px",
-      padding: "4px 6px",
-      borderRadius: "4px",
-      lineHeight: "1.2",
-      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-      fontWeight: "bold"
-    }}
-    itemStyle={{
-      fontSize: "12px",
-      color: "#555",
-    }}
-    formatter={(value, name, props) => {
-      // Find the color for this slice
-      const idx = pieChartData.findIndex(entry => entry[xkey] === name);
-      const color = pieColors[idx] || `hsl(var(--chart-${(idx % 5) + 1}))`;
-      return (
-        <span style={{ color }}>
-          {value}
-        </span>
-      );
-    }}
-  />
-)}
-          {legendEnabled && <Legend />}
-        </RechartsPieChart>
-      </ResponsiveContainer>
-      {chartFooter && (
-        <div className="pt-0 ">
-          <BlocksRenderer content={chartFooter} />
+    <div className="rounded-md my-2">
+      <div className="overflow-x-auto">
+        <div className="w-full bg-white rounded-lg border border-gray-300">
+          {/* Chart Header */}
+          {chartTitle && (
+            <div className="w-full text-lg font-semibold text-gray-700 py-3 bg-gray-100 border-b border-gray-300 rounded-t-lg text-center">
+              {chartTitle}
+            </div>
+          )}
+          <ResponsiveContainer width="100%" height={400}>
+            <RechartsPieChart>
+              <Pie
+                data={pieChartData}
+                dataKey={ykey}
+                nameKey={xkey}
+                cx="50%"
+                cy="50%"
+                innerRadius={80}
+                outerRadius={120}
+                paddingAngle={2}
+                label={({ name, value, percent }) =>
+                  `${name}: ${value} (${(percent * 100).toFixed(0)}%)`
+                }
+              >
+                {pieChartData.map((entry, idx) => (
+                  <Cell
+                    key={`cell-${idx}`}
+                    fill={pieColors[idx] || `hsl(var(--chart-${(idx % 5) + 1}))`}
+                  />
+                ))}
+              </Pie>
+              {tooltipEnabled && (
+                <Tooltip
+                  contentStyle={{
+                    fontSize: "12px",
+                    padding: "4px 6px",
+                    borderRadius: "4px",
+                    lineHeight: "1.2",
+                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+                    fontWeight: "bold"
+                  }}
+                  itemStyle={{
+                    fontSize: "12px",
+                    color: "#555",
+                  }}
+                  formatter={(value, name, props) => {
+                    const idx = pieChartData.findIndex(entry => entry[xkey] === name);
+                    const color = pieColors[idx] || `hsl(var(--chart-${(idx % 5) + 1}))`;
+                    return (
+                      <span style={{ color }}>
+                        {value}
+                      </span>
+                    );
+                  }}
+                />
+              )}
+              {legendEnabled && <Legend />}
+            </RechartsPieChart>
+          </ResponsiveContainer>
+          {chartFooter && (
+            <div className="w-full bg-gray-100 border-t border-gray-300 rounded-b-lg px-4 py-1 text-xs italic leading-tight footer-blocks">
+              <BlocksRenderer content={chartFooter} />
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 }

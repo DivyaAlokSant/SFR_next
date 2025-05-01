@@ -1,17 +1,17 @@
-'use client';
-import React from "react";
-import { useReactTable, getCoreRowModel } from "@tanstack/react-table";
+'use client'
+import React, { useState } from "react";
+import { useReactTable, getCoreRowModel, getSortedRowModel } from "@tanstack/react-table";
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 
 export default function Table(props) {
   const { data } = props;
   const { tableHeader, tableData, tableFooter } = data;
 
-  //console.log("Table Data:", tableData);
-
   if (!tableData || tableData.length === 0) {
     return <p>No data available</p>;
   }
+
+  const [sorting, setSorting] = useState([]);
 
   const columns = React.useMemo(() => {
     const firstRow = tableData[0];
@@ -25,6 +25,7 @@ export default function Table(props) {
       accessorKey: key,
       header: key,
       cell: (info) => <span>{info.getValue() || "-"}</span>,
+      enableSorting: true,
     }));
   }, [tableData]);
 
@@ -32,24 +33,32 @@ export default function Table(props) {
     data: tableData,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    state: { sorting },
+    onSortingChange: setSorting,
   });
 
   return (
-    <div className="space-y-1">
-      <h2 className="text-xl font-bold">{tableHeader}</h2>
-      <div className="overflow-x-auto">
-        <table className="w-full border-collapse border border-gray-300 text-left text-sm">
-          <thead className="bg-gray-100">
+    <div className="space-y-1 ">
+      <div className="overflow-x-auto ">
+        <table className="w-full border-collapse border border-gray-300 text-left text-sm rounded-b-lg">
+          {tableHeader && (
+            <caption className="caption-top text-lg font-semibold text-gray-700 py-3 bg-gray-100 border border-gray-300 border-b-0 rounded-t-lg w-full">
+              {tableHeader}
+            </caption>
+          )}
+          <thead className="bg-gray-200">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
-                    className="border border-gray-300 px-4 py-2 font-medium text-gray-700"
+                    className="border border-gray-300 px-4 py-2 font-medium text-gray-700 cursor-pointer select-none"
+                    onClick={header.column.getToggleSortingHandler()}
                   >
-                    {header.isPlaceholder
-                      ? null
-                      : header.column.columnDef.header}
+                    {header.isPlaceholder ? null : header.column.columnDef.header}
+                    {header.column.getIsSorted() === "asc" && " ▲"}
+                    {header.column.getIsSorted() === "desc" && " ▼"}
                   </th>
                 ))}
               </tr>
@@ -76,13 +85,17 @@ export default function Table(props) {
               </tr>
             ))}
           </tbody>
+          {tableFooter && (
+            <tfoot>
+              <tr>
+                <td colSpan={columns.length} className="w-full bg-gray-100 border-t border-gray-300 rounded-b-lg px-4 py-1 text-xs italic leading-tight footer-blocks">
+                  <BlocksRenderer content={tableFooter} />
+                </td>
+              </tr>
+            </tfoot>
+          )}
         </table>
-      </div >
-      {tableFooter && (
-        <div className="pt-1">
-          <BlocksRenderer content={tableFooter} />
-        </div>
-      )}
+      </div>
     </div>
   );
 }

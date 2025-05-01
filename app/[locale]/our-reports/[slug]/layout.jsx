@@ -1,4 +1,4 @@
-import SidebarPro from "@/components/sidebar-pro";
+import SidebarPro from "@/app/components/sidebar-pro";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { fetchChapters } from "@/app/api";
 

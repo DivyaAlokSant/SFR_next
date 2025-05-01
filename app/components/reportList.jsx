@@ -25,7 +25,21 @@ export default function ReportList({ reports, locale }) {
                 </div>
               )}
             </div>
-            <div className="p-4">
+
+            <div className="p-2">
+              {/* SEO tags: visually hidden but present in DOM for SEO */}
+              {Array.isArray(report.Tags) && report.Tags.length > 0 && (
+                <div className="flex flex-wrap gap-2 mb-2">
+                  {report.Tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="bg-blue-100 text-blue-500 px-2 py-0 rounded text-xs font-medium"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
               <p className="text-xl text-gray-600 font-bold group-hover:text-gray-700">
                 {report.title}
               </p>
@@ -33,6 +47,7 @@ export default function ReportList({ reports, locale }) {
                 {report.description}
               </p>
             </div>
+
           </Link>
         ))
       ) : (
