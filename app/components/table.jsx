@@ -5,7 +5,7 @@ import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 
 export default function Table(props) {
   const { data } = props;
-  const { tableHeader, tableData, tableFooter } = data;
+  const { tableHeader, tableData, tableFooter, HighlightLastRow } = data;
 
   if (!tableData || tableData.length === 0) {
     return <p>No data available</p>;
@@ -38,6 +38,8 @@ export default function Table(props) {
     onSortingChange: setSorting,
   });
 
+  const rowCount = table.getRowModel().rows.length;
+
   return (
     <div className="space-y-1 ">
       <div className="overflow-x-auto ">
@@ -65,30 +67,38 @@ export default function Table(props) {
             ))}
           </thead>
           <tbody>
-            {table.getRowModel().rows.map((row) => (
-              <tr
-                key={row.id}
-                className={`hover:bg-gray-100 ${
-                  row.original.Year === "Total" || row.original.Year === "Grand Total"
-                    ? "bg-amber-100 font-semibold"
-                    : ""
-                }`}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <td
-                    key={cell.id}
-                    className="border border-gray-300 px-4 py-2 text-gray-600"
-                  >
-                    {cell.getValue() || "-"}
-                  </td>
-                ))}
-              </tr>
-            ))}
+            {table.getRowModel().rows.map((row, idx, arr) => {
+              const isLast = idx === arr.length - 1;
+              return (
+                <tr
+                  key={row.id}
+                  className={
+                    `hover:bg-gray-100 ` +
+                    (
+                      HighlightLastRow && isLast
+                        ? "bg-gray-100 font-bold"
+                        : row.original.Year === "Total" || row.original.Year === "Grand Total"
+                        ? "bg-gray-100 font-semibold"
+                        : ""
+                    )
+                  }
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <td
+                      key={cell.id}
+                      className="border border-gray-300 px-4 py-2 text-gray-600"
+                    >
+                      {cell.getValue() || "-"}
+                    </td>
+                  ))}
+                </tr>
+              );
+            })}
           </tbody>
           {tableFooter && (
             <tfoot>
               <tr>
-                <td colSpan={columns.length} className="w-full bg-gray-100 border-t border-gray-300 rounded-b-lg px-4 py-1 text-xs italic leading-tight footer-blocks">
+                <td colSpan={columns.length} className="w-full bg-gray-50 border-t border-gray-300 rounded-b-lg px-4 py-1 text-xs italic leading-tight footer-blocks">
                   <BlocksRenderer content={tableFooter} />
                 </td>
               </tr>
