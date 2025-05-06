@@ -15,18 +15,22 @@ import {
 
 export default function BarChart({ item }) {
   const chartData = item.chartData || [];
-  const chartConfig = {
-    xKey: item.Xkey?.toLowerCase(),
-    tooltipEnabled: item.TooltipEnabled || true,
-    legendEnabled: item.LegendEnables || true,
-    barColors: item.barColors || [],
-  };
 
-  const { xKey, tooltipEnabled, legendEnabled, barColors } = chartConfig;
+  // Try to find a suitable xKey
+  const firstData = chartData[0] || {};
+  const keys = Object.keys(firstData);
+  // Prefer 'year', 'month', or 'date' as xKey, fallback to first key
+  const xKey = keys.find(k => ["year", "month", "date"].includes(k.toLowerCase())) || keys[0];
+
+  const tooltipEnabled = item.TooltipEnabled !== undefined ? item.TooltipEnabled : true;
+  const legendEnabled = item.LegendEnables !== undefined ? item.LegendEnables : true;
+  const barColors = item.barColors || [];
+
+  // All keys except the xKey are bar keys
   const barKeys = chartData.length > 0 ? Object.keys(chartData[0]).filter((key) => key !== xKey) : [];
 
   return (
-    <div className=" rounded-md">
+    <div className="rounded-md">
       <div className="overflow-x-auto">
         <div className="w-full bg-white rounded-lg border border-gray-300">
           {/* Chart Header */}
@@ -91,7 +95,8 @@ export default function BarChart({ item }) {
           </ResponsiveContainer>
           {/* Chart Footer */}
           {item.chartFooter && (
-             <div className="w-full bg-gray-100 border-t border-gray-300 rounded-b-lg px-4 py-1 text-xs italic leading-tight footer-blocks">  <BlocksRenderer content={item.chartFooter} />
+            <div className="w-full bg-gray-100 border-t border-gray-300 rounded-b-lg px-4 py-1 text-xs italic leading-tight footer-blocks">
+              <BlocksRenderer content={item.chartFooter} />
             </div>
           )}
         </div>

@@ -51,13 +51,13 @@ export default async function SubchapterPage(context) {
   let report, subchapter, subChapters;
   try {
     // Fetch the subchapter and report data for the current locale
-    const subchapterData = await fetchSubchapter(slug, subchapslug, locale);
+    const subchapterData = await fetchSubchapter(slug, subchapslug, locale, { next: { revalidate: 600 } });
     report = subchapterData.report;
     subchapter = subchapterData.subchapter;
     //console.log("subchapter", subchapter);
 
     // Fetch navigation links for subchapters
-    const floatingBtnData = await fetchSubchapterFloatingBtn(slug, subchapslug, locale);
+    const floatingBtnData = await fetchSubchapterFloatingBtn(slug, subchapslug, locale,{ next: { revalidate: 600 } }) ;
     subChapters = floatingBtnData.subChapters;
   } catch (error) {
     console.error("Error fetching subchapter data:", error);
@@ -85,8 +85,8 @@ export default async function SubchapterPage(context) {
         {subchapter ? (
           <>
             <h1 className="text-3xl font-bold mb-4 pl-5">{subchapter.subChapterName}</h1>
-            <h3 className="text-2xl font-semibold mb-4 pl-5">Report: {report?.title || "N/A"}</h3>
-            <p className="text-lg text-gray-600 mb-4 pl-5">{report?.description || "N/A"}</p>
+            {/* <h3 className="text-2xl font-semibold mb-4 pl-5">Report: {report?.title || "N/A"}</h3>
+            <p className="text-lg text-gray-600 mb-4 pl-5">{report?.description || "N/A"}</p> */}
 
             <div className="prose max-w-none text-justify pl-5">
               {subchapter.dynamicContent.map((item, index) => OurRenderer(item, index))}

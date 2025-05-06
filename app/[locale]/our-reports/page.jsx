@@ -3,8 +3,7 @@ import SearchAndReportList from "@/app/components/searchandReportList";
 
 export default async function Page({ params }) {
   const { locale } = await params;
-  const reports = await getAllReports(locale);
-
+  const reports = await getAllReports(locale, { next: { revalidate: 600 } });
   return (
     <div>
       <h1>

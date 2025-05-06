@@ -9,6 +9,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
+import Link from "next/link";
 
 export default function SidebarPro({ chapters, reportSlug, locale }) {
   return (
@@ -24,14 +25,14 @@ export default function SidebarPro({ chapters, reportSlug, locale }) {
                 <SidebarMenuItem key={subchapter.id}>
                   <SidebarMenuButton
                     asChild
-                    className="px-1 py-1 text-xs"
+                    className="px-1 py-0 text-xs h-7 min-h-0 leading-tight"
                   >
-                    <a
+                    <Link
                       href={`/${locale}/our-reports/${reportSlug}/${subchapter.slug}`}
                       className="block text-gray-700 hover:text-gray-900"
                     >
                       {subchapter.subChapterName}
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

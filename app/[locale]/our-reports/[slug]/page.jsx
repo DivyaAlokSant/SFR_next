@@ -5,7 +5,7 @@ export default async function Page({ params }) {
 
   let report;
   try {
-    report = await fetchReport(slug, locale); // Pass the locale to fetch the localized report
+    report = await fetchReport(slug, locale, { next: { revalidate: 600 } }); // Pass the locale to fetch the localized report
     //console.log('Fetched Report:', report);
   } catch (error) {
     console.error('Error fetching report:', error);
