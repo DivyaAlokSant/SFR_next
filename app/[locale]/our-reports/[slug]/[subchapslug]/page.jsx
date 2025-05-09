@@ -15,6 +15,7 @@ function OurRenderer(item, index) {
 
   if (item.__component === "content.para-content") {
     return <BlocksRenderer key={index} content={item.text} />;
+    console.log("Text Parent - Item Data:", item);
   }
 
   if (item.__component === "content.table") {
@@ -29,7 +30,7 @@ function OurRenderer(item, index) {
     return <LineChart key={index} item={item} />;
   }
   if (item.__component === "content.combo-bar-line-chart") {
-   // console.log("ComboChart Parent - Item Data:", item);
+    // console.log("ComboChart Parent - Item Data:", item);
     return <ComboChart key={index} item={item} />;
   }
   if (item.__component === "content.pie-chart") {
@@ -40,7 +41,10 @@ function OurRenderer(item, index) {
     console.log("Stacked Bar chart Parent - Item Data:", item);
     return <StackBarChart key={index} item={item} />;
   }
-
+  // if (item.__component === "content.para-content") {
+  //   console.log("Text Parent - Item Data:", item);
+  //   return <TextData key={index} text={item.text} tooltipData={item.tooltipData} />;
+  // }
   // Fallback for unknown components
   return <p key={index}>Unknown component</p>;
 }
@@ -54,10 +58,10 @@ export default async function SubchapterPage(context) {
     const subchapterData = await fetchSubchapter(slug, subchapslug, locale, { next: { revalidate: 600 } });
     report = subchapterData.report;
     subchapter = subchapterData.subchapter;
-    //console.log("subchapter", subchapter);
+    console.log("subchapter", subchapter);
 
     // Fetch navigation links for subchapters
-    const floatingBtnData = await fetchSubchapterFloatingBtn(slug, subchapslug, locale,{ next: { revalidate: 600 } }) ;
+    const floatingBtnData = await fetchSubchapterFloatingBtn(slug, subchapslug, locale, { next: { revalidate: 600 } });
     subChapters = floatingBtnData.subChapters;
   } catch (error) {
     console.error("Error fetching subchapter data:", error);
