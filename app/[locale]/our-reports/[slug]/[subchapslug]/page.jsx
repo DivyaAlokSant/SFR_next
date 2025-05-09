@@ -15,7 +15,7 @@ function OurRenderer(item, index) {
 
   if (item.__component === "content.para-content") {
     return <BlocksRenderer key={index} content={item.text} />;
-    console.log("Text Parent - Item Data:", item);
+    //console.log("Text Parent - Item Data:", item);
   }
 
   if (item.__component === "content.table") {
