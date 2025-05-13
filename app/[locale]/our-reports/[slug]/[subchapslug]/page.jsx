@@ -12,40 +12,27 @@ import DataImage from '@/app/components/DataImage';
 function OurRenderer(item, index) {
   if (item.__component === "content.chart-as-image")
     return <DataImage key={index} data={item} />;
-
   if (item.__component === "content.para-content") {
     return <BlocksRenderer key={index} content={item.text} />;
-    //console.log("Text Parent - Item Data:", item);
   }
-
   if (item.__component === "content.table") {
     return <Table key={index} data={item} />;
   }
   if (item.__component === "content.bar-chart") {
-    //console.log("BarChart Parent - Item Data:", item);
     return <BarChart key={index} item={item} />;
   }
   if (item.__component === "content.line-chart") {
-    //console.log("LineChart Parent - Item Data:", item); 
     return <LineChart key={index} item={item} />;
   }
   if (item.__component === "content.combo-bar-line-chart") {
-    // console.log("ComboChart Parent - Item Data:", item);
     return <ComboChart key={index} item={item} />;
   }
   if (item.__component === "content.pie-chart") {
-    // console.log("Pie Parent - Item Data:", item);
     return <PieChart key={index} item={item} />;
   }
   if (item.__component === "content.stack-bar-chart") {
-    //console.log("Stacked Bar chart Parent - Item Data:", item);
     return <StackBarChart key={index} item={item} />;
   }
-  // if (item.__component === "content.para-content") {
-  //   console.log("Text Parent - Item Data:", item);
-  //   return <TextData key={index} text={item.text} tooltipData={item.tooltipData} />;
-  // }
-  // Fallback for unknown components
   return <p key={index}>Unknown component</p>;
 }
 
@@ -56,12 +43,10 @@ export default async function SubchapterPage(context) {
     const subchapterData = await fetchSubchapter(slug, subchapslug, locale, { next: { revalidate: 600 } });
     report = subchapterData.report;
     subchapter = subchapterData.subchapter;
-    console.log("subchapter", subchapter);
 
     const floatingBtnData = await fetchSubchapterFloatingBtn(slug, subchapslug, locale, { next: { revalidate: 600 } });
     subChapters = floatingBtnData.subChapters;
   } catch (error) {
-    console.error("Error fetching subchapter data:", error);
     report = null;
     subchapter = null;
     subChapters = [];
@@ -70,9 +55,9 @@ export default async function SubchapterPage(context) {
   const { previous, next } = getNavigationLinks(subChapters, subchapslug);
 
   return (
-    <div className=" p-0 relative">
-
-      <div className="fixed bottom-40 right-1 z-50">
+    <>
+      {/* Floating buttons fixed to bottom right of viewport */}
+      <div className="fixed bottom-6 right-6 z-50">
         <FloatingActionButtons
           back={previous ? `/${locale}/our-reports/${slug}/${previous.slug}` : null}
           forward={next ? `/${locale}/our-reports/${slug}/${next.slug}` : null}
@@ -80,28 +65,22 @@ export default async function SubchapterPage(context) {
           locale={locale}
         />
       </div>
-
-
-      <div className="p-6 bg-white shadow-md rounded-lg overflow-y-auto max-h-[calc(100vh-2rem)]">
+      <div className="relative max-w-4xl mx-auto bg-white/90 rounded-xl shadow p-6 md:p-10">
         {subchapter ? (
           <>
-            <h1 className="text-3xl font-bold mb-4 pl-5">{subchapter.subChapterName}</h1>
-            {/* <h3 className="text-2xl font-semibold mb-4 pl-5">Report: {report?.title || "N/A"}</h3>
-            <p className="text-lg text-gray-600 mb-4 pl-5">{report?.description || "N/A"}</p> */}
-
-            <div className="prose max-w-none text-justify pl-5">
+            <h1 className="text-3xl font-bold mb-6 text-gray-900">{subchapter.subChapterName}</h1>
+            <div className="prose max-w-none text-justify text-gray-800 mb-8">
               {subchapter.dynamicContent.map((item, index) => OurRenderer(item, index))}
             </div>
           </>
         ) : (
-          <p className="text-gray-500">
+          <p className="text-gray-500 text-lg text-center py-12">
             {locale === "en"
               ? "Subchapter not found or failed to load."
               : "ಉಪ ಅಧ್ಯಾಯ ಲಭ್ಯವಿಲ್ಲ ಅಥವಾ ಲೋಡ್ ಮಾಡಲು ವಿಫಲವಾಗಿದೆ."}
           </p>
         )}
-
       </div>
-    </div>
+    </>
   );
 }

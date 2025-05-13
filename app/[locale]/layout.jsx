@@ -1,7 +1,7 @@
-import '../../globals.css'; // Adjusted path to the global CSS file
-import NavLink from "@/app/components/NavLink"; // Corrected path to NavLink component
-import Footer from "@/app/components/Footer"; // Corrected path to Footer component
-import LanguageSwitcher from "@/app/components/language-switcher"; // Corrected path to LanguageSwitcher component
+import '../../globals.css';
+import NavLink from "@/app/components/NavLink";
+import Footer from "@/app/components/Footer";
+import LanguageSwitcher from "@/app/components/language-switcher";
 
 export const metadata = {
   title: "IAAD, Karnataka Reports",
@@ -16,38 +16,39 @@ export default async function RootLayout({ children, params }) {
         {/* Add any meta tags or links here */}
       </head>
       <body>
-        <div className="bg-gray-200 min-h-[100dvh] grid grid-rows-[auto_1fr_auto]">
+        <div className="bg-gray-200 min-h-screen flex flex-col">
           <div className="absolute z-0 inset-0 overflow-hidden">
             <div className="circle-one blur-3xl w-64 h-64 rounded-full bg-rose-400/60 top-0 right-28 absolute"></div>
             <div className="circle-two blur-3xl w-64 h-64 rounded-full bg-indigo-400/60 bottom-0 left-28 absolute"></div>
           </div>
-          {/* Language Switcher in the Top-Right Corner */}
-          <div className="absolute top-4 right-4 z-50">
-            <LanguageSwitcher currentLocale={locale} />
-          </div>
-          <header className="bg-white/50 backdrop-blur z-10">
-            <div className="max-w-4xl mx-auto flex items-center justify-between">
-              <h2 className="text-xl text-gray-700 py-3">
-                IAAD Karnataka Reports
-              </h2>
-              <nav className="flex items-center gap-x-4">
-                <ul className="flex gap-x-1 text-gray-800 text-sm">
-                  <li>
-                    <NavLink text="Home" path={`/${locale}/`} />
-                  </li>
-                  <li>
-                    <NavLink text="Our Reports" path={`/${locale}/our-reports`} />
-                  </li>
-                  <li>
-                    <NavLink text="About Us" path={`/${locale}/about-us`} />
-                  </li>
-                </ul>
-              </nav>
+          <header className="fixed top-0 left-0 w-full z-30 bg-white/70 backdrop-blur border-b border-gray-200 md:ml-64">
+            <div className="max-w-4xl mx-auto flex flex-col px-4 py-2">
+              <div className="flex justify-end mb-2">
+                <LanguageSwitcher currentLocale={locale} />
+              </div>
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl text-gray-700 bottom-4">
+                  IAAD Karnataka Reports
+                </h2>
+                <nav className="flex items-center gap-x-4">
+                  <ul className="flex gap-x-1 text-gray-800 text-sm">
+                    <li>
+                      <NavLink text="Home" path={`/${locale}/`} />
+                    </li>
+                    <li>
+                      <NavLink text="Our Reports" path={`/${locale}/our-reports`} />
+                    </li>
+                    <li>
+                      <NavLink text="About Us" path={`/${locale}/about-us`} />
+                    </li>
+                  </ul>
+                </nav>
+              </div>
             </div>
           </header>
-          <main className="backdrop-blur max-w-6xl min-h-fit mx-auto bg-white/60 rounded-xl py-7 px-8 ">
+          <main className="flex-1 min-h-0 flex flex-col mt-[64px]">
             {children}
-            </main>
+          </main>
           <Footer />
         </div>
       </body>
