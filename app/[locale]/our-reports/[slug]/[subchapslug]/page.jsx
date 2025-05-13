@@ -38,7 +38,7 @@ function OurRenderer(item, index) {
     return <PieChart key={index} item={item} />;
   }
   if (item.__component === "content.stack-bar-chart") {
-    console.log("Stacked Bar chart Parent - Item Data:", item);
+    //console.log("Stacked Bar chart Parent - Item Data:", item);
     return <StackBarChart key={index} item={item} />;
   }
   // if (item.__component === "content.para-content") {
@@ -50,17 +50,14 @@ function OurRenderer(item, index) {
 }
 
 export default async function SubchapterPage(context) {
-  const { slug, subchapslug, locale } = await context.params; // Get slug, subchapter slug, and locale from dynamic route params
-
+  const { slug, subchapslug, locale } = await context.params; 
   let report, subchapter, subChapters;
   try {
-    // Fetch the subchapter and report data for the current locale
     const subchapterData = await fetchSubchapter(slug, subchapslug, locale, { next: { revalidate: 600 } });
     report = subchapterData.report;
     subchapter = subchapterData.subchapter;
     console.log("subchapter", subchapter);
 
-    // Fetch navigation links for subchapters
     const floatingBtnData = await fetchSubchapterFloatingBtn(slug, subchapslug, locale, { next: { revalidate: 600 } });
     subChapters = floatingBtnData.subChapters;
   } catch (error) {

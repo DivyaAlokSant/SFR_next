@@ -11,7 +11,7 @@
 }
 
 
-/* Ensure the Switch background changes based on its state */
+/* Ensure the Switch background changes based on its state*/
 [data-state="checked"] {
   background-color: hsl(220, 90%, 56%); /* Bright blue */
 }
@@ -39,7 +39,7 @@
 /* Position the thumb for the unchecked state */
 [data-state="unchecked"] .thumb {
   transform: translateX(0); /* Move thumb to the left */
-}
+} 
 
 @keyframes move1 {
   0% {
