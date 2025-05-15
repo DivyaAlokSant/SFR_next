@@ -1,14 +1,6 @@
 import ChapterCardsGrid from "@/app/components/ChapterCardsGrid";
 import Link from 'next/link';
 import Image from 'next/image';
-// import DonutMenu from "@/app/components/donutMenu";
-
-// const sections = [
-//   { color: "#f87171", href: "/section1" },
-//   { color: "#60a5fa", href: "/section2" },
-//   { color: "#34d399", href: "/section3" },
-//   { color: "#fbbf24", href: "/section4" },
-// ];
 
 export default function Home({ params }) {
   const locale = params?.locale || "en";
@@ -29,10 +21,10 @@ export default function Home({ params }) {
           />
           {/* <span className="text-4xl text-purple-500">📝</span> */}
         </div>
-        <h1 className="text-3xl md:text-4xl font-bold text-purple-800 text-center mb-2 drop-shadow">
+        <h1 className="text-3xl md:text-4xl font-bold text-purple-800 text-center mb-2 drop-shadow-md">
           Karnataka State Finances<br />Highlights 2024
         </h1>
-        <p className="text-purple-700 text-center text-lg max-w-2xl drop-shadow">
+        <p className="text-purple-700 text-center text-lg max-w-2xl drop-shadow-lg">
           Karnataka’s 2024 financial chapters reveal income, spending trends, debt status, and central aid to support informed fiscal planning.
         </p>
       </div>
@@ -41,6 +33,8 @@ export default function Home({ params }) {
         <div className="w-full max-w-5xl mt-8 z-50">
           <ChapterCardsGrid locale={locale} />
         </div>
+
+        
      
       {/* <div className="flex justify-center items-center min-h-screen">
         <DonutMenu
