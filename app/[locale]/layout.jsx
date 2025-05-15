@@ -16,13 +16,13 @@ export default async function RootLayout({ children, params }) {
         {/* Add any meta tags or links here */}
       </head>
       <body>
-        <div className="bg-gray-200 min-h-screen flex flex-col">
-          <div className="absolute z-0 inset-0 overflow-hidden">
+        <div className="bg-white min-h-screen flex flex-col">
+          {/* <div className="absolute z-0 inset-0 overflow-hidden">
             <div className="circle-one blur-3xl w-64 h-64 rounded-full bg-rose-400/60 top-0 right-28 absolute"></div>
             <div className="circle-two blur-3xl w-64 h-64 rounded-full bg-indigo-400/60 bottom-0 left-28 absolute"></div>
-          </div>
+          </div> */}
           <header className="fixed top-0 left-0 w-full z-30 bg-white/70 backdrop-blur border-b border-gray-200 md:ml-64">
-            <div className="max-w-4xl mx-auto flex flex-col px-4 py-2">
+            <div className="max-w-4xl mx-auto flex flex-col px-6 md:px-10 py-2">
               <div className="flex justify-end mb-2">
                 <LanguageSwitcher currentLocale={locale} />
               </div>

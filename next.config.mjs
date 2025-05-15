@@ -1,7 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    middlewarePrefetch: "strict", // Enable middleware prefetching (optional)
+    middlewarePrefetch: "strict",
+  },
+  images: {
+    domains: ["localhost"],
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "1337",
+      },
+    ],
   },
 };
 

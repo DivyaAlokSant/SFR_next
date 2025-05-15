@@ -1,7 +1,7 @@
 import qs from 'qs';
 
 
-const DEFAULT_REVALIDATE = 600;
+const DEFAULT_REVALIDATE = 60;
 
 export async function getAllReports(locale = 'en', fetchOptions = {}) {
   try {
@@ -229,4 +229,33 @@ export async function fetchChapters(slug, locale = 'en', fetchOptions = {}) {
   const data = await response.json();
   const report = data.data?.[0];
   return report?.chapters || [];
+}
+
+
+export async function fetchChapterCards(locale = 'en', fetchOptions = {}) {
+  const query = qs.stringify(
+    {
+      locale,
+      populate: {
+        image: true,
+      },
+      sort: ['chapterNumber:asc'],
+    },
+    { encodeValuesOnly: true }
+  );
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/chapter-cards?${query}`,
+    { next: { revalidate: 600 }, ...fetchOptions }
+  );
+  
+  if (!response.ok) {
+    const errorDetails = await response.text();
+    console.error("API Error Details:", errorDetails);
+    throw new Error(`Failed to fetch chapter cards: ${response.statusText}`);
+  }
+
+  const data = await response.json();
+  console.log("fetchChapterCards API response:", data); 
+  return data.data || [];
 }
