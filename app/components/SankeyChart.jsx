@@ -1,7 +1,17 @@
 "use client";
 import { ResponsiveSankey } from "@nivo/sankey";
+import { useRouter } from "next/navigation";
 
-export default function SankeyChart({ data, height = 400 }) {
+export default function SankeyChart({ data, height = 400, locale, chapterNumber }) {
+  const router = useRouter();
+
+  // Define your node-to-link mapping here
+  const nodeLinks = {
+    "Tax Revenue": `/${locale}/chap-summary/${chapterNumber}/tax-revenue`,
+    "Own-Tax Revenue": `/${locale}/chap-summary/${chapterNumber}/own-tax-revenue`,
+    // ...add more mappings as needed
+  };
+
   return (
     <div style={{ height }}>
       <ResponsiveSankey
@@ -26,7 +36,21 @@ export default function SankeyChart({ data, height = 400 }) {
         labelTextColor={{ from: "color", modifiers: [["darker", 2]] }}
         animate={true}
         motionConfig="wobbly"
-        linkCurve="bump" /* <-- This makes the links wavy */
+        linkCurve="bump"
+        onClick={node => {
+          // Only handle node clicks, not link clicks
+          if (node?.id && nodeLinks[node.id]) {
+            router.push(nodeLinks[node.id]);
+          }
+        }}
+        theme={{
+          labels: {
+            text: {
+              fontSize: 12,
+              fontWeight: 600,
+            },
+          },
+        }}
       />
     </div>
   );

@@ -1,6 +1,6 @@
 export default function page() {
   return (
-    <div className="max-w-3xl mx-auto bg-white/80 rounded-xl shadow p-8 my-8">
+    <div className="max-w-3xl mx-auto bg-white/20 rounded-xl shadow p-8 my-8">
       <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
         Our Vision, Mission &amp; Core Values
       </h1>

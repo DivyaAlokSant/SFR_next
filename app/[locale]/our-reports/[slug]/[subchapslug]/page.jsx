@@ -1,43 +1,11 @@
-import { BlocksRenderer } from '@strapi/blocks-react-renderer';
-import BarChart from '@/app/components/barChart';
-import Table from '@/app/components/table'
 import { fetchSubchapter, fetchSubchapterFloatingBtn } from '@/app/api';
 import FloatingActionButtons, { getNavigationLinks } from "@/app/components/FloatingButtons";
-import LineChart from '@/app/components/linechart';
-import ComboChart from '@/app/components/comboChart';
-import PieChart from '@/app/components/pieChart';
-import StackBarChart from '@/app/components/stackBarChart';
-import DataImage from '@/app/components/DataImage';
+import OurRenderer from '@/app/components/ourRenderer';
 
-function OurRenderer(item, index) {
-  if (item.__component === "content.chart-as-image")
-    return <DataImage key={index} data={item} />;
-  if (item.__component === "content.para-content") {
-    return <BlocksRenderer key={index} content={item.text} />;
-  }
-  if (item.__component === "content.table") {
-    return <Table key={index} data={item} />;
-  }
-  if (item.__component === "content.bar-chart") {
-    return <BarChart key={index} item={item} />;
-  }
-  if (item.__component === "content.line-chart") {
-    return <LineChart key={index} item={item} />;
-  }
-  if (item.__component === "content.combo-bar-line-chart") {
-    return <ComboChart key={index} item={item} />;
-  }
-  if (item.__component === "content.pie-chart") {
-    return <PieChart key={index} item={item} />;
-  }
-  if (item.__component === "content.stack-bar-chart") {
-    return <StackBarChart key={index} item={item} />;
-  }
-  return <p key={index}>Unknown component</p>;
-}
+
 
 export default async function SubchapterPage(context) {
-  const { slug, subchapslug, locale } = await context.params; 
+  const { slug, subchapslug, locale } = await context.params;
   let report, subchapter, subChapters;
   try {
     const subchapterData = await fetchSubchapter(slug, subchapslug, locale, { next: { revalidate: 600 } });
@@ -70,7 +38,9 @@ export default async function SubchapterPage(context) {
           <>
             <h1 className="text-3xl font-bold mb-6 text-gray-900">{subchapter.subChapterName}</h1>
             <div className="prose max-w-none text-justify text-gray-800 mb-8">
-              {subchapter.dynamicContent.map((item, index) => OurRenderer(item, index))}
+              {subchapter.dynamicContent.map((item, index) => (
+                <OurRenderer key={index} item={item} index={index} />
+              ))}
             </div>
           </>
         ) : (

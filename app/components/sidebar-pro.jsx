@@ -45,9 +45,8 @@ export default function SidebarPro({ chapters, reportSlug, locale, children }) {
                   >
                     <span>{chapter.ChapterName}</span>
                     <ChevronDown
-                      className={`transition-transform ${
-                        isOpen ? "rotate-180" : ""
-                      }`}
+                      className={`transition-transform ${isOpen ? "rotate-180" : ""
+                        }`}
                     />
                   </SidebarGroupLabel>
                   {isOpen && (
@@ -60,11 +59,10 @@ export default function SidebarPro({ chapters, reportSlug, locale, children }) {
                           <SidebarMenuItem key={subchapter.id}>
                             <SidebarMenuButton
                               asChild
-                              className={`px-1 py-0 text-xs h-7 min-h-0 leading-tight ${
-                                isActive
+                              className={`px-1 py-0 text-xs h-7 min-h-0 leading-tight ${isActive
                                   ? "bg-gray-200 font-bold text-gray-900"
                                   : "text-gray-700 hover:text-gray-900"
-                              }`}
+                                }`}
                             >
                               <Link
                                 href={`/${locale}/our-reports/${reportSlug}/${subchapter.slug}`}
@@ -85,8 +83,8 @@ export default function SidebarPro({ chapters, reportSlug, locale, children }) {
         </Sidebar>
       </div>
       {/* Content area with left margin for sidebar */}
-      <SidebarInset className="flex-1 min-h-0 flex flex-col w-full md:ml-64">
-        <div className="w-full h-full min-h-0 p-6 bg-white overflow-auto rounded-xl shadow">
+      <SidebarInset className="flex-1 min-h-0 flex flex-col w-full md:ml-64 !bg-transparent">
+        <div className="w-full h-full min-h-0 p-6 bg-transparent overflow-auto rounded-xl shadow">
           {children}
         </div>
       </SidebarInset>
