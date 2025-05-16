@@ -6,7 +6,7 @@ export default function SankeyChart({ data, height = 400 }) {
     <div style={{ height }}>
       <ResponsiveSankey
         data={data}
-        margin={{ top: 40, right: 160, bottom: 40, left: 50 }}
+        margin={{ top: 40, right: 20, bottom: 40, left: 40 }}
         align="justify"
         colors={{ scheme: "category10" }}
         nodeOpacity={0.95}
@@ -20,7 +20,7 @@ export default function SankeyChart({ data, height = 400 }) {
         linkHoverOpacity={0.8}
         enableLinkGradient={true}
         linkContract={8}
-        labelPosition="outside"
+        labelPosition="inside"
         labelOrientation="horizontal"
         labelPadding={18}
         labelTextColor={{ from: "color", modifiers: [["darker", 2]] }}
