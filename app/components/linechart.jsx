@@ -83,7 +83,7 @@ const renderLegend = () => (
             {/* Chart */}
             <div className="flex-1">
               <ResponsiveContainer width="100%" height={400} className="pt-6">
-                <RechartsLineChart data={filteredChartData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+                <RechartsLineChart data={filteredChartData} margin={{ top: 20, right: 20, left: 5, bottom: 20 }}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis
                     dataKey={xKey}
@@ -144,7 +144,7 @@ const renderLegend = () => (
               {legendEnabled && renderLegend()}
             </div>
             {/* X-axis label filter checkboxes */}
-            <div className="flex flex-col items-start ml-6 mt-6 min-w-[180px] max-h-[400px] overflow-y-auto border rounded px-3 py-2 bg-gray-50">
+            <div className="flex flex-col items-start ml-2 mt-6 min-w-[120px] max-h-[400px] overflow-y-auto border rounded px-2 py-2 bg-gray-50">
               <div className="font-semibold mb-2 text-sm text-gray-700">Filter X Labels</div>
               {xLabels.map(label => (
                 <label key={label} className="flex items-center mb-1 text-sm">

@@ -1,12 +1,11 @@
 import ChapterCardsGrid from "@/app/components/ChapterCardsGrid";
 import Link from 'next/link';
-import Image from 'next/image';
 
 export default function Home({ params }) {
   const locale = params?.locale || "en";
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-purple-100 py-12 px-2">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-blue-100 py-12 px-2">
       {/* Main Icon and Heading */}
       <div className="flex flex-col items-center mb-8">
         {/* Placeholder for main icon */}
