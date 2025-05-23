@@ -1,4 +1,4 @@
-"use client";
+
 
 import Link from "next/link";
 import {
@@ -12,23 +12,29 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 
-export function AppSidebar({ chapters, reportSlug }) {
+export function AppSidebar({ chapters, reportSlug, locale }) {
   return (
-    <div className="bg-gray-300">
+    <div className="h-full overflow-y-auto">
       <Sidebar>
         <SidebarContent>
           {chapters.map((chapter) => (
             <SidebarGroup key={chapter.id}>
-              <SidebarGroupLabel className="bg-gray-200 text-sm text-slate-900">{chapter.ChapterName}</SidebarGroupLabel>
+              <SidebarGroupLabel className="bg-gray-200 text-sm text-slate-900">
+                {chapter.ChapterName}
+              </SidebarGroupLabel>
               <SidebarMenu>
                 {(chapter.sub_chapters || []).map((subchapter) => (
                   <SidebarMenuItem key={subchapter.id}>
                     <SidebarMenuButton
                       asChild
-                      className="px-1 py-1  text-xs" 
+                      className="px-1 py-1 text-xs"
                     >
-                      <Link href={`/our-reports/${reportSlug}/${subchapter.slug}`}>
-                        <span className=" bg-gray-100">{subchapter.subChapterName}</span>
+                      <Link
+                        href={`/${locale}/our-reports/${reportSlug}/${subchapter.slug}`}
+                      >
+                        <span className="bg-gray-100">
+                          {subchapter.subChapterName}
+                        </span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -37,7 +43,6 @@ export function AppSidebar({ chapters, reportSlug }) {
             </SidebarGroup>
           ))}
         </SidebarContent>
-        <SidebarRail />
       </Sidebar>
     </div>
   );

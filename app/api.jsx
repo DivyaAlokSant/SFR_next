@@ -1,41 +1,59 @@
 import qs from 'qs';
 
 
-export async function getAllReports() {
+const DEFAULT_REVALIDATE = 60;
+
+export async function getAllReports(locale = 'en', fetchOptions = {}) {
   try {
-    const reportsPromise = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/reports?populate=*`);
-    const reports = await reportsPromise.json();
-    return reports.data || [];
+    const query = qs.stringify(
+      {
+        locale,
+        populate: '*',
+      },
+      { encodeValuesOnly: true }
+    );
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/reports?${query}`,
+      { next: { revalidate: DEFAULT_REVALIDATE }, ...fetchOptions }
+    );
+    const data = await response.json();
+    console.log("reports data", data)
+    return data.data || [];
   } catch (error) {
     console.error("Failed to fetch reports:", error);
     return [];
   }
 }
 
-export async function fetchReport(slug) {
-  const ourQuery = qs.stringify(
+export async function fetchReport(slug, locale = 'en', fetchOptions = {}) {
+  const query = qs.stringify(
     {
       filters: {
         slug: {
-          $eq: slug, // Filter by report slug
+          $eq: slug,
         },
       },
+      locale,
       populate: {
         image: true,
         chapters: {
-          sort: ['ChapterNumber:asc'], // Sort chapters by ChapterNumber
+          sort: ['ChapterNumber:asc'],
           populate: {
             sub_chapters: {
-              sort: ['subChapterOrder:asc'], // Sort subchapters by subChapterOrder
+              sort: ['subChapterOrder:asc'],
             },
           },
         },
       },
     },
-    { encodeValuesOnly: true } // Ensure proper encoding of query parameters
+    { encodeValuesOnly: true }
   );
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/reports?${ourQuery}`);
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/reports?${query}`,
+    { next: { revalidate: DEFAULT_REVALIDATE }, ...fetchOptions }
+  );
   console.log('API Response Status:', response.status);
 
   if (!response.ok) {
@@ -44,49 +62,68 @@ export async function fetchReport(slug) {
     throw new Error(`Failed to fetch report: ${response.statusText}`);
   }
 
-  const report = await response.json();
-  return report.data?.[0] || null; // Return the first report or null if not found
+  const data = await response.json();
+  console.log("Reports data", data)
+  return data.data?.[0] || null;
 }
 
-export async function fetchSubchapter(slug, subchapslug) {
-  const query = qs.stringify({
-    filters: {
-      slug: {
-        $eq: subchapslug, // Filter by subchapter slug
-      },
-      chapter: {
-        report: {
-          slug: {
-            $eq: slug, // Ensure the subchapter belongs to the correct report
-          },
+export async function fetchSubchapter(slug, subchapslug, locale = 'en', fetchOptions = {}) {
+  const query = qs.stringify(
+    {
+      filters: {
+        slug: {
+          $eq: subchapslug,
         },
-      },
-    },
-    populate: {
-      dynamicContent: {
-        on: {
-          "content.chart-as-image": {
-            populate: {
-              chart: "*", // Populate the chart (image) field
+        chapter: {
+          report: {
+            slug: {
+              $eq: slug,
             },
           },
-          "content.table": {
-            populate: "*", // Populate all fields for the table component
-          },
-          "content.para-content": {
-            populate: "*", // Populate all fields for the para component
-          },
         },
       },
-      chapter: {
-        populate: {
-          report: {
-            populate: {
-              chapters: {
-                sort: ["ChapterNumber:asc"], // Sort chapters by ChapterNumber
-                populate: {
-                  sub_chapters: {
-                    sort: ["subChapterOrder:asc"], // Sort subchapters by subChapterOrder
+      locale,
+      populate: {
+        dynamicContent: {
+          on: {
+            "content.chart-as-image": {
+              populate: {
+                chart: "*",
+              },
+            },
+            "content.table": {
+              populate: "*",
+            },
+            "content.para-content": {
+              populate: "*",
+            },
+            "content.bar-chart": {
+              populate: "*",
+            },
+            "content.line-chart": {
+              populate: "*",
+            },
+            "content.combo-bar-line-chart": {
+              populate: "*",
+            },
+            "content.pie-chart": {
+              populate: "*",
+            },
+            "content.stack-bar-chart": {
+              populate: "*",
+            },
+          },
+        },
+        chapter: {
+          populate: {
+            report: {
+              populate: {
+                chapters: {
+                  sort: ["ChapterNumber:asc"],
+                  populate: {
+                    sub_chapters: {
+                      sort: ["subChapterOrder:asc"],
+                    },
                   },
                 },
               },
@@ -95,13 +132,13 @@ export async function fetchSubchapter(slug, subchapslug) {
         },
       },
     },
-  }, { encodeValuesOnly: true }); // Ensure proper encoding of query parameters
+    { encodeValuesOnly: true }
+  );
 
-  // console.log("Generated Query:", query);
-
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/sub-chapters?${query}`);
-  // {console.log("API Response Status:", response.status);}
-
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/sub-chapters?${query}`,
+    { next: { revalidate: DEFAULT_REVALIDATE }, ...fetchOptions }
+  );
   if (!response.ok) {
     const errorDetails = await response.text();
     console.error("API Error Details:", errorDetails);
@@ -109,28 +146,26 @@ export async function fetchSubchapter(slug, subchapslug) {
   }
 
   const data = await response.json();
-  // console.log("Fetched Data:", data);
-
-  // Extract the subchapter and related data
-  const subchapter = data.data[0]; // Directly access the first subchapter
-  const chapter = subchapter?.chapter; // Access the parent chapter
-  const report = chapter?.report; // Access the parent report
+  const subchapter = data.data[0];
+  const chapter = subchapter?.chapter;
+  const report = chapter?.report;
 
   return { report, subchapter };
-};
+}
 
-export async function fetchSubchapterFloatingBtn(slug, subchapslug) {
+export async function fetchSubchapterFloatingBtn(slug, subchapslug, locale = 'en', fetchOptions = {}) {
   const query = qs.stringify(
     {
       filters: {
         chapter: {
           report: {
             slug: {
-              $eq: slug, // Ensure the subchapter belongs to the correct report
+              $eq: slug,
             },
           },
         },
       },
+      locale,
       populate: {
         chapter: {
           populate: {
@@ -138,52 +173,55 @@ export async function fetchSubchapterFloatingBtn(slug, subchapslug) {
           },
         },
       },
-      sort: ["chapter.ChapterNumber:asc", "subChapterOrder:asc"], // Sort by chapter and subchapter order
+      sort: ["chapter.ChapterNumber:asc", "subChapterOrder:asc"],
     },
-    { encodeValuesOnly: true } // Ensure proper encoding of query parameters
+    { encodeValuesOnly: true }
   );
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/sub-chapters?${query}`);
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/sub-chapters?${query}`,
+    { next: { revalidate: DEFAULT_REVALIDATE }, ...fetchOptions }
+  );
   if (!response.ok) {
     const errorDetails = await response.text();
-    console.error("API Error Details:", errorDetails);
+    //console.error("API Error Details:", errorDetails);
     throw new Error(`Failed to fetch subchapters: ${response.statusText}`);
   }
 
   const data = await response.json();
-  const subChapters = data.data || []; // All subchapters in the report
-
-  // Find the current subchapter
+  const subChapters = data.data || [];
   const subchapter = subChapters.find((sub) => sub.slug === subchapslug);
 
   return { subchapter, subChapters };
-};
+}
 
-
-export async function fetchChapters(slug) {
+export async function fetchChapters(slug, locale = 'en', fetchOptions = {}) {
   const query = qs.stringify(
     {
       filters: {
         slug: {
-          $eq: slug, // Filter by report slug
+          $eq: slug,
         },
       },
+      locale,
       populate: {
         chapters: {
-          sort: ["ChapterNumber:asc"], // Sort chapters by ChapterNumber
+          sort: ["ChapterNumber:asc"],
           populate: {
             sub_chapters: {
-              sort: ["subChapterOrder:asc"], // Sort subchapters by subChapterOrder
+              sort: ["subChapterOrder:asc"],
             },
           },
         },
       },
     },
-    { encodeValuesOnly: true } // Ensure proper encoding of query parameters
+    { encodeValuesOnly: true }
   );
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/reports?${query}`);
-
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/reports?${query}`,
+    { next: { revalidate: DEFAULT_REVALIDATE }, ...fetchOptions }
+  );
   if (!response.ok) {
     throw new Error(`Failed to fetch chapters: ${response.statusText}`);
   }
@@ -191,4 +229,33 @@ export async function fetchChapters(slug) {
   const data = await response.json();
   const report = data.data?.[0];
   return report?.chapters || [];
+}
+
+
+export async function fetchChapterCards(locale = 'en', fetchOptions = {}) {
+  const query = qs.stringify(
+    {
+      locale,
+      populate: {
+        image: true,
+      },
+      sort: ['chapterNumber:asc'],
+    },
+    { encodeValuesOnly: true }
+  );
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/chapter-cards?${query}`,
+    { next: { revalidate: 600 }, ...fetchOptions }
+  );
+  
+  if (!response.ok) {
+    const errorDetails = await response.text();
+    console.error("API Error Details:", errorDetails);
+    throw new Error(`Failed to fetch chapter cards: ${response.statusText}`);
+  }
+
+  const data = await response.json();
+  console.log("fetchChapterCards API response:", data); 
+  return data.data || [];
 }
