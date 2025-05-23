@@ -1,4 +1,4 @@
-"use client";
+'use client'
 import { ResponsiveTree } from "@nivo/tree";
 
 export default function TreeChart({ data }) {
@@ -6,7 +6,7 @@ export default function TreeChart({ data }) {
     <div style={{ width: "100%", height: 450 }}>
       <ResponsiveTree
         data={data}
-        mode="tree"
+        mode="dendogram"
         identity="name"
         layout="left-to-right"
         orientLabels={false}
@@ -15,7 +15,7 @@ export default function TreeChart({ data }) {
         activeNodeSize={32}
         inactiveNodeSize={18}
         nodeColor={{ scheme: "nivo" }}
-        fixNodeColorAtDepth={2}
+        fixNodeColorAtDepth={4}
         nodeBorderWidth={3}
         nodeBorderColor={{ from: "color", modifiers: [["darker", 0.5]] }}
         nodeOpacity={1}
@@ -24,11 +24,19 @@ export default function TreeChart({ data }) {
         activeLinkThickness={8}
         inactiveLinkThickness={2}
         linkColor={{ from: "target.color", modifiers: [["opacity", 0.5]] }}
-        margin={{ top: 10, right: 220, bottom: 20, left: 120 }}
+        margin={{ top: 10, right: 240, bottom: 20, left: 160 }}
         meshDetectionRadius={80}
         enableLabel={true}
         label={node => node.data.name}
         labelTextColor={{ from: "color", modifiers: [["darker", 2.5]] }}
+        theme={{
+          labels: {
+            text: {
+              fontSize: 12, // ← increase this value as needed
+              fontWeight: 600,
+            },
+          },
+        }}
         linkTooltip={({ link }) => (
           <div
             style={{

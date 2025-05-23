@@ -1,5 +1,9 @@
 import ChapterCardsGrid from "@/app/components/ChapterCardsGrid";
 import Link from 'next/link';
+import SunBurstChart from "../components/sunBurstChart";
+
+
+
 
 export default function Home({ params }) {
   const locale = params?.locale || "en";
