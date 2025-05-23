@@ -1,19 +1,10 @@
 import Link from "next/link";
+import {getAllReports} from "@/app/api"; 
 
-async function getAllReports() {
-  try {
-    const reportsPromise = await fetch('http://localhost:1337/api/reports?populate=*');
-    const reports = await reportsPromise.json();
-    return reports.data || [];
-  } catch (error) {
-    console.error("Failed to fetch reports:", error);
-    return [];
-  }
-}
 
 export default async function page() {
   const reports = await getAllReports();
-  console.log(reports)
+  console.log(reports);
 
   return (
     <div>
@@ -27,11 +18,17 @@ export default async function page() {
               href={`/our-reports/${report.slug}`}
             >
               <div className="relative overflow-hidden">
-                <img
-                  className="transition duration-300 absolute inset-0 h-full w-full object-cover group-hover:scale-125 group-hover:rotate-12"
-                  src={`http://localhost:1337${report.image.formats.small.url}`}
-                  alt={report.image.name}
-                />
+                {report.image?.formats?.small?.url ? (
+                  <img
+                    className="transition duration-300 absolute inset-0 h-full w-full object-cover group-hover:scale-125 group-hover:rotate-12"
+                    src={`${process.env.NEXT_PUBLIC_API_BASE_URL}${report.image.formats.small.url}`}
+                    alt={report.image.name || "Report Image"}
+                  />
+                ) : (
+                  <div className="flex items-center justify-center h-full w-full bg-gray-200 text-gray-500">
+                    No Image Available
+                  </div>
+                )}
               </div>
               <div className="p-4">
                 <p className="text-xl text-gray-600 font-bold group-hover:text-gray-700">{report.title}</p>

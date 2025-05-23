@@ -1,23 +1,11 @@
 
 import { AppSidebar } from '@/components/app-sidebar';
 import { SidebarProvider } from '@/components/ui/sidebar';
+import { fetchChapters } from '@/app/api';
 
-async function fetchChapters(slug) {
-  const response = await fetch(
-    `http://localhost:1337/api/reports?filters[slug][$eq]=${slug}&populate[chapters][sort]=ChapterNumber:asc&populate[chapters][populate][sub_chapters][sort]=subChapterOrder:asc`
-  );
-
-  if (!response.ok) {
-    throw new Error(`Failed to fetch chapters: ${response.statusText}`);
-  }
-
-  const data = await response.json();
-  const report = data.data?.[0];
-  return report?.chapters || [];
-}
 
 export default async function Layout({ children, params }) {
-  const { slug } = params;
+  const { slug } = await params;
 
   let chapters = [];
   try {
