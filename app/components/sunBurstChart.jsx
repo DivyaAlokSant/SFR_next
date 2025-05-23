@@ -18,7 +18,7 @@ export default function SunBurstChart({ data, width = 500, height = 500, title =
           "", "Eve", "Eve", "Seth", "Seth", "Eve", "Eve", "Awan", "Eve"
         ],
         values: [10, 14, 12, 10, 2, 6, 6, 4, 4],
-        branchvalues: "total"
+        //branchvalues: "total"
       }
     ];
     // No custom marker/colors

@@ -259,3 +259,61 @@ export async function fetchChapterCards(locale = 'en', fetchOptions = {}) {
   console.log("fetchChapterCards API response:", data); 
   return data.data || [];
 }
+
+export async function fetchLandingPage(locale = 'en', fetchOptions = {}) {
+  const query = qs.stringify(
+    {
+      locale,
+      populate: {
+        dynamicContent: {
+          on: {
+            "content.chart-as-image": {
+              populate: {
+                chart: "*",
+              },
+            },
+            "content.table": {
+              populate: "*",
+            },
+            "content.para-content": {
+              populate: "*",
+            },
+            "content.bar-chart": {
+              populate: "*",
+            },
+            "content.line-chart": {
+              populate: "*",
+            },
+            "content.combo-bar-line-chart": {
+              populate: "*",
+            },
+            "content.pie-chart": {
+              populate: "*",
+            },
+            "content.stack-bar-chart": {
+              populate: "*",
+            },
+            "content.sankey-chart": {
+              populate: "*",
+            },
+          },
+        },
+      },
+    },
+    { encodeValuesOnly: true }
+  );
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/landing-pages?${query}`,
+    { next: { revalidate: DEFAULT_REVALIDATE }, ...fetchOptions }
+  );
+  
+  if (!response.ok) {
+    const errorDetails = await response.text();
+    console.error("API Error Details:", errorDetails);
+    throw new Error(`Failed to fetch landing page: ${response.statusText}`);
+  }
+
+  const data = await response.json();
+  return data.data || null;
+}

@@ -6,6 +6,7 @@ import ComboChart from '@/app/components/comboChart';
 import PieChart from '@/app/components/pieChart';
 import StackBarChart from '@/app/components/stackBarChart';
 import DataImage from '@/app/components/DataImage';
+import SankeyChartPro from './sankeyChartpro';
 
 export default function OurRenderer({ item, index }) {
   if (item.__component === "content.chart-as-image")
@@ -30,6 +31,18 @@ export default function OurRenderer({ item, index }) {
   }
   if (item.__component === "content.stack-bar-chart") {
     return <StackBarChart key={index} item={item} />;
+  }
+  if (item.__component === "content.sankey-chart") {
+    console.log("SankeyChartPro item:", item);
+    return (
+      <SankeyChartPro
+        key={index}
+        nodesData={item.dataNodes}
+        linksData={item.datalinks}
+        title={item.Title}
+        chartFooter={item.chartFooter}
+      />
+    );
   }
   return <p key={index}>Unknown component</p>;
 }
