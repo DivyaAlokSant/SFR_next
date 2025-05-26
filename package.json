@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/material": "^7.1.0",
     "@nivo/radar": "^0.98.0",
     "@nivo/sankey": "^0.96.0",
     "@nivo/tree": "^0.98.0",

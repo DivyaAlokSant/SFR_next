@@ -1,3 +1,6 @@
+import ChapCard from "../components/chapCard";
+import { fetchChapterCards } from "../api";
+
 import SunBurstChart from "../components/sunBurstChart";
 import React from "react";
 import { fetchLandingPage } from "../api";
@@ -259,6 +262,13 @@ export default async function Home({ params }) {
   const dynamicContent = Array.isArray(landingPage) && landingPage.length > 0
     ? landingPage[0].dynamicContent
     : [];
+  const chapterCards = await fetchChapterCards(locale);
+
+// Split cards for left and right columns
+const leftCards = chapterCards.slice(0, 2);
+const rightCards = chapterCards.slice(2, 4);
+
+
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-gradient-to-b from-blue-50 to-blue-100 py-10 px-2">
@@ -273,92 +283,42 @@ export default async function Home({ params }) {
         </p>
       </div>
       <div className="grid grid-cols-3 gap-4 w-full max-w-6xl my-6">
-        {/* Left column: 3 rows */}
-        <div className="flex flex-col gap-6 w-full">
-          <TooltipCard
-            trigger={
-              <div className="flex items-center justify-between w-full">
-                <span className="text-base text-gray-800">Area - 1,91,791 sq KMs </span>
-                <MdLocationOn className="text-3xl text-orange-600" />
-              </div>
-            }
-            content="The state of Karnataka, in India, has a total area of 1,91,791 square kilometers (sq km). It is the eighth largest state in India by area. This area represents 5.83% of the total geographical area of India."
-            className="w-full"
-          />
-          <TooltipCard
-            trigger={
-              <div className="flex items-center justify-between w-full">
-                <span className="text-base text-gray-800">Population - 6.11 crores (2011 census)</span>
-                <MdPeople className="text-3xl text-orange-600" />
-              </div>
-            }
-            content="In 2023, the estimated population of Karnataka was 67,692,000. This figure is an estimate, as official census data is usually collected on a decennial basis. The state's population has been increasing over the years. For example, the population was 70,890,000 in 2022 and 69,960,000 in 2021."
-            className="w-full"
-          />
-          <TooltipCard
-            trigger={
-              <div className="flex items-center justify-between w-full">
-                <span className="text-base text-gray-800">Population below poverty line - 20.91%</span>
-                <MdOutlineMoneyOff className="text-3xl text-orange-600" />
-              </div>
-            }
-            content="NSSO Estimates: The National Sample Survey Office (NSSO) estimated that 20% of Karnataka's population was below the poverty line (BPL) in 2010-11. <br><br> NITI Aayog Report: The NITI Aayog's Multidimensional Poverty Index baseline report in 2021 suggested that only 13.16% of the population is considered poor in Karnataka."
-            className="w-full"
-          />
-        </div>
+  {/* Left column: 2 ChapCards */}
+  <div className="flex flex-col gap-6 w-full">
+    {leftCards.map((chapter) => (
+      <ChapCard key={chapter.id} chapter={{
+        chapterName: chapter.chapterName,
+        chapterNumber: chapter.chapterNumber,
+        description: chapter.description,
+        image: chapter.image?.url,
+      }} locale={locale} />
+    ))}
+  </div>
 
+  {/* Center column: Map */}
+  <div className="flex items-center justify-center group-hover:shadow-2xl group-hover:-translate-y-3 group-hover:scale-105">
+    <img
+      src="/mapKar.png"
+      alt="Karnataka Map"
+      width={300}
+      height={300}
+      className="w-full h-auto mix-blend-multiply opacity-70 rounded-lg"
+    />
+    {/* <KarnatakaMap/> */}
+  </div>
 
-        {/* Center column: Map */}
-        <div className="flex items-center justify-center  group-hover:shadow-2xl group-hover:-translate-y-3 group-hover:scale-105">
-          <img
-            src="/mapKar.png"
-            alt="Karnataka Map"
-            width={300}
-            height={300}
-            className="w-full h-auto mix-blend-multiply opacity-70 rounded-lg "
-          />
-          {/* <KarnatakaMap/> */}
-        </div>
-        {/* Right column: 3 rows */}
-        <div className="flex flex-col gap-4">
-          <TooltipCard
-            trigger={
-              <div className="flex items-center justify-between w-full gap-4">
-                <MdTrendingUp className="text-3xl text-orange-600" />
-                <span className="text-base text-gray-800">
-                  Gross State Domestic Product (GSDP)- ₹ 25.67 lakh crores
-                </span>
-              </div>
-            }
-            content="Gross State Domestic Product (GSDP) is a measure of the total monetary value of all final goods and services produced within a state's boundaries during a specific period, typically a year."
-            className="w-full"
-          />
-          <TooltipCard
-            trigger={
-              <div className="flex items-center justify-between w-full gap-4">
-                <MdAccountBalanceWallet className="text-3xl text-orange-600" />
-                <span className="text-base text-gray-800">
-                  Per Capita GSDP ₹ 3,76,996
-                </span>
-              </div>
-            }
-            content="It's essentially the total value of goods and services produced within a country's borders (GDP) divided by the country's total population."
-            className="w-full"
-          />
-          <TooltipCard
-            trigger={
-              <div className="flex items-center justify-between w-full gap-4">
-                <MdBarChart className="text-3xl text-orange-600" />
-                <span className="text-base text-gray-800">
-                  Gross State Value Added (GSVA)
-                </span>
-              </div>
-            }
-            content="GSVA refers to the gross value added by a state, a key measure used in calculating the Gross State Domestic Product (GSDP)."
-            className="w-full"
-          />
-        </div>
-      </div>
+  {/* Right column: 2 ChapCards */}
+  <div className="flex flex-col gap-6 w-full">
+    {rightCards.map((chapter) => (
+      <ChapCard key={chapter.id} chapter={{
+        chapterName: chapter.chapterName,
+        chapterNumber: chapter.chapterNumber,
+        description: chapter.description,
+        image: chapter.image?.url,
+      }} locale={locale} />
+    ))}
+  </div>
+</div>
 
 
 
