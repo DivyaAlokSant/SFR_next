@@ -7,6 +7,8 @@ import PieChart from '@/app/components/pieChart';
 import StackBarChart from '@/app/components/stackBarChart';
 import DataImage from '@/app/components/DataImage';
 import SankeyChartPro from './sankeyChartpro';
+import TextCard from './textCard';
+import TableauChart from './tableuChart';
 
 export default function OurRenderer({ item, index }) {
   if (item.__component === "content.chart-as-image")
@@ -44,5 +46,11 @@ export default function OurRenderer({ item, index }) {
       />
     );
   }
+  if (item.__component === "content.text-card") {
+    return <TextCard key={index} heading={item.Heading} detail={item.detail} />;
+  }
+  if (item.__component === "content.tableu-chart") {
+  return <TableauChart key={index} embedCode={item.EmbedCode} height={item.height || 400} width={item.width || "100%"}/>;
+}
   return <p key={index}>Unknown component</p>;
 }

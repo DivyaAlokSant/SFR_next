@@ -248,7 +248,7 @@ export async function fetchChapterCards(locale = 'en', fetchOptions = {}) {
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/chapter-cards?${query}`,
     { next: { revalidate: 600 }, ...fetchOptions }
   );
-  
+
   if (!response.ok) {
     const errorDetails = await response.text();
     console.error("API Error Details:", errorDetails);
@@ -256,7 +256,7 @@ export async function fetchChapterCards(locale = 'en', fetchOptions = {}) {
   }
 
   const data = await response.json();
-  console.log("fetchChapterCards API response:", data); 
+  console.log("fetchChapterCards API response:", data);
   return data.data || [];
 }
 
@@ -296,6 +296,9 @@ export async function fetchLandingPage(locale = 'en', fetchOptions = {}) {
             "content.sankey-chart": {
               populate: "*",
             },
+            "content.tableu-chart": {
+              populate: "*",
+            },
           },
         },
       },
@@ -307,7 +310,7 @@ export async function fetchLandingPage(locale = 'en', fetchOptions = {}) {
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/landing-pages?${query}`,
     { next: { revalidate: DEFAULT_REVALIDATE }, ...fetchOptions }
   );
-  
+
   if (!response.ok) {
     const errorDetails = await response.text();
     console.error("API Error Details:", errorDetails);
@@ -317,3 +320,47 @@ export async function fetchLandingPage(locale = 'en', fetchOptions = {}) {
   const data = await response.json();
   return data.data || null;
 }
+
+
+
+export async function fetchOverviewTab(locale = 'en', fetchOptions = {}) {
+  const query = qs.stringify(
+    {
+      locale,
+      populate: {
+        dynamicContent: {
+          on: {
+            "content.text-card": {
+              populate: "*",
+            },
+             "content.para-content": {
+              populate: "*",
+            },
+             "content.chart-as-image": {
+              populate: {
+                chart: "*",
+              },
+            },
+
+          },
+        },
+      },
+    },
+    { encodeValuesOnly: true }
+  );
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/overview-tabs?${query}`,
+    { next: { revalidate: DEFAULT_REVALIDATE }, ...fetchOptions }
+  );
+
+  if (!response.ok) {
+    const errorDetails = await response.text();
+    console.error("API Error Details:", errorDetails);
+    throw new Error(`Failed to fetch overview tab: ${response.statusText}`);
+  }
+
+  const data = await response.json();
+  return data.data || null;
+}
+

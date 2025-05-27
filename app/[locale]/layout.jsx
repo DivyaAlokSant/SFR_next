@@ -29,12 +29,12 @@ export default async function RootLayout({ children, params }) {
               </div>
               <div className="flex items-center justify-between">
                 <h2 className="text-xl text-gray-700 bottom-4">
-                  IAAD Karnataka Reports
+                  SFAR Karnataka Report
                 </h2>
                 <nav className="flex items-center gap-x-4">
                   <ul className="flex gap-x-1 text-gray-800 text-sm">
                     <li>
-                      <NavLink text="Home" path={`/${locale}/`} />
+                      <NavLink text="DashBoard" path={`/${locale}/`} />
                     </li>
                     <li>
                       <NavLink text="Our Reports" path={`/${locale}/our-reports`} />

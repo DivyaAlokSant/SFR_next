@@ -10,6 +10,7 @@ import TooltipCard from "../components/tooltipCard";
 import { MdLocationOn, MdPeople, MdOutlineMoneyOff, MdTrendingUp, MdAccountBalanceWallet, MdBarChart } from "react-icons/md";
 import TreeChart from "../components/treeChart";
 import RadarChart from "../components/radarChart";
+import TableauChart from "../components/tableuChart";
 
 const sampleTreeData = {
   name: "Government Accounts",
@@ -264,9 +265,9 @@ export default async function Home({ params }) {
     : [];
   const chapterCards = await fetchChapterCards(locale);
 
-// Split cards for left and right columns
-const leftCards = chapterCards.slice(0, 2);
-const rightCards = chapterCards.slice(2, 4);
+  // Split cards for left and right columns
+  const leftCards = chapterCards.slice(0, 2);
+  const rightCards = chapterCards.slice(2, 4);
 
 
 
@@ -283,47 +284,50 @@ const rightCards = chapterCards.slice(2, 4);
         </p>
       </div>
       <div className="grid grid-cols-3 gap-4 w-full max-w-6xl my-6">
-  {/* Left column: 2 ChapCards */}
-  <div className="flex flex-col gap-6 w-full">
-    {leftCards.map((chapter) => (
-      <ChapCard key={chapter.id} chapter={{
-        chapterName: chapter.chapterName,
-        chapterNumber: chapter.chapterNumber,
-        description: chapter.description,
-        image: chapter.image?.url,
-      }} locale={locale} />
-    ))}
-  </div>
+        {/* Left column: 2 ChapCards */}
+        <div className="flex flex-col gap-6 w-full">
+          {leftCards.map((chapter) => (
+            <ChapCard key={chapter.id} chapter={{
+              chapterName: chapter.chapterName,
+              chapterNumber: chapter.chapterNumber,
+              description: chapter.description,
+              image: chapter.image?.url,
+            }} locale={locale} />
+          ))}
+        </div>
 
-  {/* Center column: Map */}
-  <div className="flex items-center justify-center group-hover:shadow-2xl group-hover:-translate-y-3 group-hover:scale-105">
-    <img
-      src="/mapKar.png"
-      alt="Karnataka Map"
-      width={300}
-      height={300}
-      className="w-full h-auto mix-blend-multiply opacity-70 rounded-lg"
-    />
-    {/* <KarnatakaMap/> */}
-  </div>
+        {/* Center column: Map */}
+        <div className="flex items-center justify-center group-hover:shadow-2xl group-hover:-translate-y-3 group-hover:scale-105">
+          <img
+            src="/mapKar.png"
+            alt="Karnataka Map"
+            width={300}
+            height={300}
+            className="w-full h-auto mix-blend-multiply opacity-70 rounded-lg"
+          />
+          {/* <KarnatakaMap/> */}
+        </div>
 
-  {/* Right column: 2 ChapCards */}
-  <div className="flex flex-col gap-6 w-full">
-    {rightCards.map((chapter) => (
-      <ChapCard key={chapter.id} chapter={{
-        chapterName: chapter.chapterName,
-        chapterNumber: chapter.chapterNumber,
-        description: chapter.description,
-        image: chapter.image?.url,
-      }} locale={locale} />
-    ))}
-  </div>
-</div>
-
-
+        {/* Right column: 2 ChapCards */}
+        <div className="flex flex-col gap-6 w-full">
+          {rightCards.map((chapter) => (
+            <ChapCard key={chapter.id} chapter={{
+              chapterName: chapter.chapterName,
+              chapterNumber: chapter.chapterNumber,
+              description: chapter.description,
+              image: chapter.image?.url,
+            }} locale={locale} />
+          ))}
+        </div>
+      </div>
 
 
-      <div className="w-full max-w-6xl mt-8 z-50 bg-white/75 rounded-xl shadow p-6">
+      {/* <TableauChart
+        embedCode="<noscript><a href='#'><img alt='Sheet 1 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Di&#47;DistrictData_17483301341700&#47;Sheet1&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='DistrictData_17483301341700&#47;Sheet1' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Di&#47;DistrictData_17483301341700&#47;Sheet1&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='en-US' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1748331023540');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>" 
+        height={400}
+        width="85%"/> */}
+
+      {/* <div className="w-full max-w-6xl mt-8 z-50 bg-white/75 rounded-xl shadow p-6">
         <h2 className="text-xl font-semibold text-purple-700 mb-4 text-center">Pictorial depiction of the structure of Government Accounts</h2>
         <TreeChart data={sampleTreeData} />
       </div>
@@ -378,15 +382,14 @@ const rightCards = chapterCards.slice(2, 4);
           data={radarData}
           height={400}
         />
-      </div>
+      </div> */}
 
-      {/* Render dynamic content from Strapi using OurRenderer */}
       <div className="w-full max-w-6xl flex flex-col gap-8">
         {console.log("LandingPage dynamicContent:", dynamicContent)}
         {dynamicContent?.map((item, i) => (
           <OurRenderer key={i} item={item} index={i} />
         ))}
-      </div>
+      </div> 
 
     </div>
   );
