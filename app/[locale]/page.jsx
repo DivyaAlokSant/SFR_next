@@ -1,5 +1,6 @@
 import ChapCard from "../components/chapCard";
 import { fetchChapterCards } from "../api";
+import HeroSection from "@/app/components/heroSection";
 
 import SunBurstChart from "../components/sunBurstChart";
 import React from "react";
@@ -7,7 +8,7 @@ import { fetchLandingPage } from "../api";
 import OurRenderer from "../components/ourRenderer";
 import SankeyChart from "../components/SankeyChart";
 import TooltipCard from "../components/tooltipCard";
-import { MdLocationOn, MdPeople, MdOutlineMoneyOff, MdTrendingUp, MdAccountBalanceWallet, MdBarChart } from "react-icons/md";
+import { MdOutlineScreenSearchDesktop,MdCurrencyRupee,MdAccountBalance,MdOutlineManageSearch } from "react-icons/md";
 import TreeChart from "../components/treeChart";
 import RadarChart from "../components/radarChart";
 import TableauChart from "../components/tableuChart";
@@ -212,22 +213,22 @@ const data = {
 
 
   links: [
-    { source: "Own-Tax Revenue", target: "Tax Revenue", value: 143702 },
-    { source: "Share of Union Taxes and Duties", target: "Tax Revenue", value: 34596 },
-    { source: "Tax Revenue", target: "Revenue Receipts", value: 178298 },
-    { source: "Non-Tax Revenue", target: "Revenue Receipts", value: 13914 },
-    { source: "Grants-in-Aid and Contributions", target: "Revenue Receipts", value: 36868 },
-    { source: "Recoveries of Loans and Advances", target: "Capital Receipts", value: 478 },
-    { source: "Miscellaneous Capital Receipts", target: "Capital Receipts", value: 2 },
-    { source: "Public Debt Receipts", target: "Capital Receipts", value: 44549 },
-    { source: "Revenue Receipts", target: "Total Receipts", value: 229080 },
-    { source: "Capital Receipts", target: "Total Receipts", value: 45029 },
-    { source: "Total Receipts", target: "Total Disbursement out of Consolidated Fund", value: 274109 },
-    { source: "Total Disbursement out of Consolidated Fund", target: "Revenue Expenditure", value: 215584 },
-    { source: "Total Disbursement out of Consolidated Fund", target: "Interest Payments", value: 29643 },
-    { source: "Total Disbursement out of Consolidated Fund", target: "Capital Expenditure", value: 57349 },
-    { source: "Total Disbursement out of Consolidated Fund", target: "Loan and Advances", value: 3250 },
-    { source: "Total Disbursement out of Consolidated Fund", target: "Public Debt Repayment", value: 15942 }
+    { "source": "Own-Tax Revenue", target: "Tax Revenue", value: 143702 },
+    { "source": "Share of Union Taxes and Duties", target: "Tax Revenue", value: 34596 },
+    { "source": "Tax Revenue", target: "Revenue Receipts", value: 178298 },
+    { "source": "Non-Tax Revenue", target: "Revenue Receipts", value: 13914 },
+    { "source": "Grants-in-Aid and Contributions", target: "Revenue Receipts", value: 36868 },
+    { "source": "Recoveries of Loans and Advances", target: "Capital Receipts", value: 478 },
+    { "source": "Miscellaneous Capital Receipts", target: "Capital Receipts", value: 2 },
+    { "source": "Public Debt Receipts", target: "Capital Receipts", value: 44549 },
+    { "source": "Revenue Receipts", target: "Total Receipts", value: 229080 },
+    { "source": "Capital Receipts", target: "Total Receipts", value: 45029 },
+    { "source": "Total Receipts", target: "Total Disbursement out of Consolidated Fund", value: 274109 },
+    { "source": "Total Disbursement out of Consolidated Fund", target: "Revenue Expenditure", value: 215584 },
+    { "source": "Total Disbursement out of Consolidated Fund", target: "Interest Payments", value: 29643 },
+    { "source": "Total Disbursement out of Consolidated Fund", target: "Capital Expenditure", value: 57349 },
+    { "source": "Total Disbursement out of Consolidated Fund", target: "Loan and Advances", value: 3250 },
+    { "source": "Total Disbursement out of Consolidated Fund", target: "Public Debt Repayment", value: 15942 }
   ]
 
 };
@@ -255,6 +256,15 @@ const radarData = [
   }
 ];
 
+const leftIcons = [
+  { icon: MdOutlineManageSearch , label: "Overview", link: "/tabs" },
+  { icon: MdAccountBalance, label: "Finances of states ", link: "/tabs" },
+];
+const rightIcons = [
+  { icon: MdCurrencyRupee, label: "Budetary Management", link: "/tabs" },
+  { icon: MdOutlineScreenSearchDesktop, label: "Audit Findings", link: "/tabs" },
+];
+
 
 
 export default async function Home({ params }) {
@@ -263,16 +273,16 @@ export default async function Home({ params }) {
   const dynamicContent = Array.isArray(landingPage) && landingPage.length > 0
     ? landingPage[0].dynamicContent
     : [];
-  const chapterCards = await fetchChapterCards(locale);
+  //const chapterCards = await fetchChapterCards(locale);
 
   // Split cards for left and right columns
-  const leftCards = chapterCards.slice(0, 2);
-  const rightCards = chapterCards.slice(2, 4);
+  // const leftCards = chapterCards.slice(0, 2);
+  // const rightCards = chapterCards.slice(2, 4);
 
 
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-gradient-to-b from-blue-50 to-blue-100 py-10 px-2">
+    <div className="min-h-screen flex flex-col items-center bg-gradient-to-br from-blue-200 via-blue-50 to-blue-200 py-10 px-2">
 
       <div className="w-full max-w-3xl bg-white rounded-xl shadow-lg p-8 mb-10 text-center">
         <h1 className="text-xl font-bold text-blue-800 mb-2 drop-shadow-md">
@@ -283,8 +293,8 @@ export default async function Home({ params }) {
           This page provides a visual summary of the State Finance Report for 2024
         </p>
       </div>
-      <div className="grid grid-cols-3 gap-4 w-full max-w-6xl my-6">
-        {/* Left column: 2 ChapCards */}
+      {/* <div className="grid grid-cols-3 gap-4 w-full max-w-6xl my-6">
+      
         <div className="flex flex-col gap-6 w-full">
           {leftCards.map((chapter) => (
             <ChapCard key={chapter.id} chapter={{
@@ -296,7 +306,6 @@ export default async function Home({ params }) {
           ))}
         </div>
 
-        {/* Center column: Map */}
         <div className="flex items-center justify-center group-hover:shadow-2xl group-hover:-translate-y-3 group-hover:scale-105">
           <img
             src="/mapKar.png"
@@ -305,10 +314,7 @@ export default async function Home({ params }) {
             height={300}
             className="w-full h-auto mix-blend-multiply opacity-70 rounded-lg"
           />
-          {/* <KarnatakaMap/> */}
         </div>
-
-        {/* Right column: 2 ChapCards */}
         <div className="flex flex-col gap-6 w-full">
           {rightCards.map((chapter) => (
             <ChapCard key={chapter.id} chapter={{
@@ -319,8 +325,14 @@ export default async function Home({ params }) {
             }} locale={locale} />
           ))}
         </div>
-      </div>
+      </div> */}
 
+      <HeroSection
+        leftIcons={leftIcons}
+        rightIcons={rightIcons}
+        centerImage="/mapKar.png"
+        centerImageAlt="Karnataka Map"
+      />
 
       {/* <TableauChart
         embedCode="<noscript><a href='#'><img alt='Sheet 1 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Di&#47;DistrictData_17483301341700&#47;Sheet1&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='DistrictData_17483301341700&#47;Sheet1' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Di&#47;DistrictData_17483301341700&#47;Sheet1&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='en-US' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1748331023540');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>" 
@@ -389,7 +401,7 @@ export default async function Home({ params }) {
         {dynamicContent?.map((item, i) => (
           <OurRenderer key={i} item={item} index={i} />
         ))}
-      </div> 
+      </div>
 
     </div>
   );

@@ -364,3 +364,49 @@ export async function fetchOverviewTab(locale = 'en', fetchOptions = {}) {
   return data.data || null;
 }
 
+
+
+export async function fetchFinancesofstatesTab(locale = 'en', fetchOptions = {}) {
+  const query = qs.stringify(
+    {
+      locale,
+      populate: {
+        dynamicContent: {
+          on: {
+            "content.text-card": {
+              populate: "*",
+            },
+             "content.para-content": {
+              populate: "*",
+            },
+             "content.chart-as-image": {
+              populate: {
+                chart: "*",
+              },
+            },
+            "content.sankey-chart": {
+              populate: "*"
+            },
+
+          },
+        },
+      },
+    },
+    { encodeValuesOnly: true }
+  );
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/financesofstates-tabs?${query}`,
+    { next: { revalidate: DEFAULT_REVALIDATE }, ...fetchOptions }
+  );
+
+  if (!response.ok) {
+    const errorDetails = await response.text();
+    console.error("API Error Details:", errorDetails);
+    throw new Error(`Failed to fetch overview tab: ${response.statusText}`);
+  }
+
+  const data = await response.json();
+  return data.data || null;
+}
+

@@ -43,6 +43,7 @@ export default function OurRenderer({ item, index }) {
         linksData={item.datalinks}
         title={item.Title}
         chartFooter={item.chartFooter}
+        nodeLinks={item.nodeLinks}
       />
     );
   }
@@ -51,6 +52,9 @@ export default function OurRenderer({ item, index }) {
   }
   if (item.__component === "content.tableu-chart") {
   return <TableauChart key={index} embedCode={item.EmbedCode} height={item.height || 400} width={item.width || "100%"}/>;
+}
+if (item.__component === "content.hero-section") {
+  return <HeroSection />;
 }
   return <p key={index}>Unknown component</p>;
 }

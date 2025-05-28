@@ -1,6 +1,7 @@
 "use client";
 import { ResponsiveSankey } from "@nivo/sankey";
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
+import { useRouter } from "next/navigation";
 
 export default function SankeyChartPro({
   nodesData = [],
@@ -9,13 +10,28 @@ export default function SankeyChartPro({
   title,
   footer,
   chartFooter, // Accepts rich text blocks for footer
+  nodeLinks = {}, // { nodeId: "/your-link" }
 }) {
+  const router = useRouter();
+
+  const nodeLinksMap = Array.isArray(nodeLinks)
+    ? nodeLinks.reduce((acc, obj) => ({ ...acc, ...obj }), {})
+    : (nodeLinks || {});
+
+
   // Transform nodesData and linksData to Nivo format
   const data = {
     nodes: nodesData.map((n) =>
       typeof n === "string" ? { id: n } : n
     ),
     links: linksData,
+  };
+
+  // Handler for node click
+  const handleNodeClick = (node) => {
+    if (node?.id && nodeLinksMap[node.id]) {
+      router.push(nodeLinksMap[node.id]);
+    }
   };
 
   return (
@@ -34,7 +50,7 @@ export default function SankeyChartPro({
           align="justify"
           colors={{ scheme: "category10" }}
           nodeOpacity={0.95}
-          nodeThickness={18}
+          nodeThickness={30}
           nodeInnerPadding={6}
           nodeSpacing={32}
           nodeBorderWidth={2}
@@ -59,6 +75,7 @@ export default function SankeyChartPro({
               },
             },
           }}
+          onClick={handleNodeClick}
         />
       </div>
       {/* Footer */}
@@ -70,3 +87,13 @@ export default function SankeyChartPro({
     </div>
   );
 }
+
+
+
+{/* <SankeyChartPro
+  nodesData={item.dataNodes}
+  linksData={item.datalinks}
+  title={item.Title}
+  footer={item.footer}
+  nodeLinks={item.nodeLinks}
+/> */}
