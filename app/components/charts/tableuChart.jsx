@@ -39,7 +39,7 @@ export default function TableauChart({
   return (
     <div 
       ref={containerRef}
-      id={divId}
+      id={divId || "tableauViz"}
       className="tableauPlaceholder my-4"
       style={{
         position: "relative",

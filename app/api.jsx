@@ -387,6 +387,9 @@ export async function fetchFinancesofstatesTab(locale = 'en', fetchOptions = {})
             "content.sankey-chart": {
               populate: "*"
             },
+            "content.tableu-chart": {
+              populate: "*",
+            },
 
           },
         },

@@ -1,5 +1,5 @@
 "use client"
-import CenteredTabs from "@/app/components/tabs";
+import CenteredTabs from "@/app/components/dashboard/tabs";
 import React, { useState, useEffect } from "react";
 import { fetchOverviewTab } from "@/app/api";
 import OurRenderer from "@/app/components/ourRenderer";

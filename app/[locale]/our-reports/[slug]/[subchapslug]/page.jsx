@@ -1,5 +1,5 @@
 import { fetchSubchapter, fetchSubchapterFloatingBtn } from '@/app/api';
-import FloatingActionButtons, { getNavigationLinks } from "@/app/components/FloatingButtons";
+import FloatingActionButtons, { getNavigationLinks } from "@/app/components/reports/FloatingButtons";
 import OurRenderer from '@/app/components/ourRenderer';
 
 

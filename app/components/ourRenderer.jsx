@@ -1,14 +1,14 @@
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
-import BarChart from '@/app/components/barChart';
-import Table from '@/app/components/table';
-import LineChart from '@/app/components/linechart';
-import ComboChart from '@/app/components/comboChart';
-import PieChart from '@/app/components/pieChart';
-import StackBarChart from '@/app/components/stackBarChart';
-import DataImage from '@/app/components/DataImage';
-import SankeyChartPro from './sankeyChartpro';
-import TextCard from './textCard';
-import TableauChart from './tableuChart';
+import BarChart from '@/app/components/charts/barChart';
+import Table from '@/app/components/charts/table';
+import LineChart from '@/app/components/charts/linechart';
+import ComboChart from '@/app/components/charts/comboChart';
+import PieChart from '@/app/components/charts/pieChart';
+import StackBarChart from '@/app/components/charts/stackBarChart';
+import DataImage from '@/app/components/charts/DataImage';
+import SankeyChartPro from './charts/sankeyChartpro';
+import TextCard from './dashboard/textCard';
+import TableauChart from './charts/tableuChart';
 
 export default function OurRenderer({ item, index }) {
   if (item.__component === "content.chart-as-image")
@@ -51,7 +51,7 @@ export default function OurRenderer({ item, index }) {
     return <TextCard key={index} heading={item.Heading} detail={item.detail} />;
   }
   if (item.__component === "content.tableu-chart") {
-  return <TableauChart key={index} embedCode={item.EmbedCode} height={item.height || 400} width={item.width || "100%"}/>;
+  return <TableauChart key={index} embedCode={item.EmbedCode} height={item.height} width={item.width} divId={item.sectionId} />;
 }
 if (item.__component === "content.hero-section") {
   return <HeroSection />;

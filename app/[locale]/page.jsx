@@ -1,87 +1,17 @@
-import ChapCard from "../components/chapCard";
+import ChapCard from "../components/dashboard/chapCard";
 import { fetchChapterCards } from "../api";
-import HeroSection from "@/app/components/heroSection";
+import HeroSection from "@/app/components/dashboard/heroSection";
 
-import SunBurstChart from "../components/sunBurstChart";
+import SunBurstChart from "../components/charts/sunBurstChart";
 import React from "react";
 import { fetchLandingPage } from "../api";
 import OurRenderer from "../components/ourRenderer";
-import SankeyChart from "../components/SankeyChart";
-import TooltipCard from "../components/tooltipCard";
+import SankeyChart from "../components/charts/SankeyChart";
+import TooltipCard from "../components/dashboard/tooltipCard";
 import { MdOutlineScreenSearchDesktop,MdCurrencyRupee,MdAccountBalance,MdOutlineManageSearch } from "react-icons/md";
-import TreeChart from "../components/treeChart";
-import RadarChart from "../components/radarChart";
-import TableauChart from "../components/tableuChart";
+import RadarChart from "../components/charts/radarChart";
+import TableauChart from "../components/charts/tableuChart";
 
-const sampleTreeData = {
-  name: "Government Accounts",
-  children: [
-    {
-      name: "Consolidated Fund",
-      children: [
-        {
-          name: "Receipts",
-          children: [
-            {
-              name: "Revenue Receipts",
-              children: [
-                { name: "Tax Revenue" },
-                { name: "Non-Tax Revenue" },
-                { name: "Grants-in-Aid and Contributions" },
-                { name: "State's share of Union Taxes and Duties" },
-              ],
-            },
-            {
-              name: "Capital Receipts",
-              children: [
-                { name: "Debt Receipts" },
-                { name: "Non-debt Receipts" },
-              ],
-            },
-          ],
-        },
-        {
-          name: "Expenditure",
-          children: [
-            {
-              name: "Revenue Expenditure",
-              children: [
-                { name: "General Services" },
-                { name: "Social Services" },
-                { name: "Economic Services" },
-                { name: "Grants-in-Aid & Contributions" },
-              ],
-            },
-            {
-              name: "Capital Expenditure",
-              children: [
-                { name: "General Services" },
-                { name: "Social Services" },
-                { name: "Economic Services" },
-                { name: "Public Debt" },
-                { name: "Loans and Advances" },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-    {
-      name: "Contingency Fund",
-    },
-    {
-      name: "Public Account",
-      children: [
-        { name: "Small Savings and PF etc." },
-        { name: "Reserve Funds" },
-        { name: "Deposits and Advances" },
-        { name: "Suspense and Miscellaneous" },
-        { name: "Remittances" },
-        { name: "Cash balances" },
-      ],
-    },
-  ],
-};
 
 const BSdata = [
   {
@@ -268,7 +198,7 @@ const rightIcons = [
 
 
 export default async function Home({ params }) {
-  const locale = params?.locale || "en";
+   const { locale } = await params;
   const landingPage = await fetchLandingPage(locale, { next: { revalidate: 600 } });
   const dynamicContent = Array.isArray(landingPage) && landingPage.length > 0
     ? landingPage[0].dynamicContent
@@ -282,7 +212,7 @@ export default async function Home({ params }) {
 
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-gradient-to-br from-blue-200 via-blue-50 to-blue-200 py-10 px-2">
+    <div className="min-h-screen flex flex-col items-center bg-gradient-to-br from-blue-200 via-orange-50 to-blue-200 py-10 px-2">
 
       <div className="w-full max-w-3xl bg-white rounded-xl shadow-lg p-8 mb-10 text-center">
         <h1 className="text-xl font-bold text-blue-800 mb-2 drop-shadow-md">
@@ -293,39 +223,7 @@ export default async function Home({ params }) {
           This page provides a visual summary of the State Finance Report for 2024
         </p>
       </div>
-      {/* <div className="grid grid-cols-3 gap-4 w-full max-w-6xl my-6">
-      
-        <div className="flex flex-col gap-6 w-full">
-          {leftCards.map((chapter) => (
-            <ChapCard key={chapter.id} chapter={{
-              chapterName: chapter.chapterName,
-              chapterNumber: chapter.chapterNumber,
-              description: chapter.description,
-              image: chapter.image?.url,
-            }} locale={locale} />
-          ))}
-        </div>
 
-        <div className="flex items-center justify-center group-hover:shadow-2xl group-hover:-translate-y-3 group-hover:scale-105">
-          <img
-            src="/mapKar.png"
-            alt="Karnataka Map"
-            width={300}
-            height={300}
-            className="w-full h-auto mix-blend-multiply opacity-70 rounded-lg"
-          />
-        </div>
-        <div className="flex flex-col gap-6 w-full">
-          {rightCards.map((chapter) => (
-            <ChapCard key={chapter.id} chapter={{
-              chapterName: chapter.chapterName,
-              chapterNumber: chapter.chapterNumber,
-              description: chapter.description,
-              image: chapter.image?.url,
-            }} locale={locale} />
-          ))}
-        </div>
-      </div> */}
 
       <HeroSection
         leftIcons={leftIcons}
@@ -339,10 +237,7 @@ export default async function Home({ params }) {
         height={400}
         width="85%"/> */}
 
-      {/* <div className="w-full max-w-6xl mt-8 z-50 bg-white/75 rounded-xl shadow p-6">
-        <h2 className="text-xl font-semibold text-purple-700 mb-4 text-center">Pictorial depiction of the structure of Government Accounts</h2>
-        <TreeChart data={sampleTreeData} />
-      </div>
+      {/* 
 
       <div className="w-full max-w-6xl mt-4 z-10 bg-white/75 rounded-xl shadow p-6">
         <h2 className="text-xl font-semibold text-purple-700 mb-6 text-center">Karnataka Government Receipts and Expenditure Flow</h2>

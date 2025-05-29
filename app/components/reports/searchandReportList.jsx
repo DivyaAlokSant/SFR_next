@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import SearchBar from "@/app/components/searchBar";
-import ReportList from "@/app/components/reportList";
+import SearchBar from "@/app/components/reports/searchBar";
+import ReportList from "@/app/components/reports/reportList";
 
 export default function SearchAndReportList({ reports, locale }) {
   const [filteredReports, setFilteredReports] = useState(reports);

@@ -1,4 +1,7 @@
+
+
 import React from "react";
+import Link from "next/link";
 import { MdLocationOn, MdPeople, MdOutlineMoneyOff, MdTrendingUp } from "react-icons/md";
 
 function HeroSection({
@@ -11,37 +14,39 @@ function HeroSection({
 }) {
   // Left: label left, icon right
   const LeftIconCircle = ({ icon: Icon, label, link }) => (
-    <a
-      href={link}
-      className="flex flex-row-reverse items-center group"
-      tabIndex={0}
-      aria-label={label}
-    >
-      <div className="rounded-full border-2 border-blue-300 shadow-lg bg-white w-20 h-20 flex items-center justify-center transition-transform group-hover:scale-110 group-hover:border-blue-500">
-        <Icon className="text-3xl text-orange-700" />
+    <Link href={link}>
+      <div
+        className="flex flex-row-reverse items-center group cursor-pointer"
+        tabIndex={0}
+        aria-label={label}
+      >
+        <div className="rounded-full border-2 border-blue-300 shadow-lg bg-white w-20 h-20 flex items-center justify-center transition-transform group-hover:scale-110 group-hover:border-blue-500">
+          <Icon className="text-3xl text-orange-700" />
+        </div>
+        <span className="mr-3 text-sm text-blue-800 text-center font-semibold">{label}</span>
       </div>
-      <span className="mr-3 text-sm text-blue-800 text-center font-semibold">{label}</span>
-    </a>
+    </Link>
   );
 
   // Right: icon left, label right
   const RightIconCircle = ({ icon: Icon, label, link }) => (
-    <a
-      href={link}
-      className="flex items-center group"
-      tabIndex={0}
-      aria-label={label}
-    >
-      <div className="rounded-full border-2 border-blue-300 shadow-lg bg-white w-20 h-20 flex items-center justify-center transition-transform group-hover:scale-110 group-hover:border-blue-500">
-        <Icon className="text-3xl text-orange-700" />
+    <Link href={link}>
+      <div
+        className="flex items-center group cursor-pointer"
+        tabIndex={0}
+        aria-label={label}
+      >
+        <div className="rounded-full border-2 border-blue-300 shadow-lg bg-white w-20 h-20 flex items-center justify-center transition-transform group-hover:scale-110 group-hover:border-blue-500">
+          <Icon className="text-3xl text-orange-700" />
+        </div>
+        <span className="ml-3 text-sm text-blue-800 text-center font-semibold">{label}</span>
       </div>
-      <span className="ml-3 text-sm text-blue-800 text-center font-semibold">{label}</span>
-    </a>
+    </Link>
   );
 
   return (
     <div className="grid grid-cols-3 gap-10 w-full max-w-6xl my-6 items-center">
-      {/* Left column: 2 IconCircles with label left */}
+      {/* Left column: IconCircles with label left */}
       <div className="flex flex-col gap-10 w-full items-end">
         {leftIcons.map((item, idx) => (
           <LeftIconCircle key={idx} icon={item.icon} label={item.label} link={item.link} />
@@ -59,7 +64,7 @@ function HeroSection({
         />
       </div>
 
-      {/* Right column: 2 IconCircles with label right */}
+      {/* Right column: IconCircles with label right */}
       <div className="flex flex-col gap-10 w-full items-start">
         {rightIcons.map((item, idx) => (
           <RightIconCircle key={idx} icon={item.icon} label={item.label} link={item.link} />

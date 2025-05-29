@@ -1,5 +1,5 @@
 import { getAllReports } from "@/app/api";
-import SearchAndReportList from "@/app/components/searchandReportList";
+import SearchAndReportList from "@/app/components/reports/searchandReportList";
 
 export default async function Page({ params }) {
   const { locale } = await params;

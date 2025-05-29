@@ -29,11 +29,18 @@ export default function SankeyChartPro({
 
   // Handler for node click
   const handleNodeClick = (node) => {
-    if (node?.id && nodeLinksMap[node.id]) {
-      router.push(nodeLinksMap[node.id]);
+  const link = nodeLinksMap[node.id];
+  if (link) {
+    if (link.startsWith("#")) {
+      // Scroll to section
+      const el = document.getElementById(link.substring(1));
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+      window.location.hash = link;
+    } else {
+      router.push(link);
     }
-  };
-
+  }
+};
   return (
     <div className="w-full bg-white rounded-lg overflow-hidden my-2">
       {/* Header */}
