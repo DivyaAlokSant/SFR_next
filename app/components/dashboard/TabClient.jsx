@@ -3,13 +3,15 @@ import { useState } from "react";
 import CenteredTabs from "@/app/components/dashboard/tabs";
 import OurRenderer from "@/app/components/ourRenderer";
 import TreeChart from "../charts/treeChart";
+import OverviewMain from "./overviewMain";
+import OverviewHero from "./overviewHero";
 
 export default function TabClient({ overviewContent, financesContent }) {
   const [tab, setTab] = useState(0);
 
   const tabs = [
     { label: "Overview" },
-    { label: "Finances of the States" },
+    { label: "Finances of the State" },
     { label: "Budgetary Management" },
     { label: "Audit Findings" },
   ];
@@ -93,20 +95,26 @@ export default function TabClient({ overviewContent, financesContent }) {
         {tab === 0 && (
           <div>
             <div className="flex items-center justify-center">
-              <img
+              {/* <img
                 src="/mapKar.png"
                 alt="Karnataka Map"
                 width={200}
                 height={200}
-              />
+              /> */}
             </div>
+            <OverviewHero />
+            <div id="overview-main">
+                <OverviewMain />
+            </div>
+            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {overviewContent.map((item, i) => (
+              
+              {/* {overviewContent.map((item, i) => (
                 <OurRenderer key={i} item={item} index={i} />
-              ))}
+              ))} */}
             </div>
-            <div className="w-full max-w-6xl mt-8 z-50 bg-white/75 rounded-xl shadow p-6">
-              <h2 className="text-xl font-semibold text-blue-700 mb-4 text-center">Pictorial depiction of the structure of Government Accounts</h2>
+            <div id="overview-GA" className="w-full max-w-6xl mt-8 z-50 bg-white/75 rounded-xl shadow p-6">
+              <h2 className="text-xl font-semibold text-blue-700 mb-4 text-center">Structure of Government Accounts</h2>
               <TreeChart data={sampleTreeData} />
             </div>
           </div>

@@ -10,10 +10,25 @@ import React, { useEffect, useRef } from "react";
 export default function TableauChart({
   embedCode,
   divId = "tableauViz",
-  height = 400,
-  width = "100%",
+  height = 800,
+  width = 1000,
 }) {
   const containerRef = useRef(null);
+
+  // Add :device=desktop to the embed URL if not present
+  const processedEmbedCode = embedCode.replace(
+    /(<param name=['"]?src['"]? value=['"]?[^'"]+\?[^'"]*)/g,
+    (match) =>
+      match.includes(":device=")
+        ? match
+        : match.replace("?", "?:device=desktop&")
+  ).replace(
+    /(src=['"][^'"]+\?[^'"]*)/g,
+    (match) =>
+      match.includes(":device=")
+        ? match
+        : match.replace("?", "?:device=desktop&")
+  );
 
   useEffect(() => {
     const divElement = containerRef.current;
@@ -21,8 +36,8 @@ export default function TableauChart({
 
     const vizElement = divElement.getElementsByTagName("object")[0];
     if (vizElement) {
-      vizElement.style.width = typeof width === "number" ? `${width}px` : width;
-      vizElement.style.height = height + "px";
+      vizElement.style.width = "1000px";
+      vizElement.style.height = "800px";
 
       if (
         !document.querySelector(
@@ -34,19 +49,21 @@ export default function TableauChart({
         vizElement.parentNode.insertBefore(scriptElement, vizElement);
       }
     }
-  }, [embedCode, height, width]);
+  }, [processedEmbedCode]);
 
   return (
-    <div 
+    <div
       ref={containerRef}
       id={divId || "tableauViz"}
       className="tableauPlaceholder my-4"
       style={{
         position: "relative",
-        width: typeof width === "number" ? `${width}px` : width,
-        height,
+        width: "1000px",
+        minWidth: 1000,
+        height: 800,
+        minHeight: 800,
       }}
-      dangerouslySetInnerHTML={{ __html: embedCode }}
+      dangerouslySetInnerHTML={{ __html: processedEmbedCode }}
     />
   );
 }
